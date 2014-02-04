@@ -488,7 +488,10 @@ void yysetstream(std::istream* ps)
 	} \
     }
 
-#line 492 "lex.yy.c"
+#undef YY_DECL
+#define YY_DECL int _yylex(void)
+
+#line 495 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -675,10 +678,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 36 "ecc.lex"
+#line 39 "ecc.lex"
 
 
-#line 682 "lex.yy.c"
+#line 685 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -763,25 +766,25 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 38 "ecc.lex"
+#line 41 "ecc.lex"
 { return SEMICOLON; }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 39 "ecc.lex"
+#line 42 "ecc.lex"
 { return INTEGER; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 40 "ecc.lex"
+#line 43 "ecc.lex"
 { return IDENTIFIER; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 41 "ecc.lex"
+#line 44 "ecc.lex"
 ECHO;
 	YY_BREAK
-#line 785 "lex.yy.c"
+#line 788 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1779,7 +1782,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 41 "ecc.lex"
+#line 44 "ecc.lex"
 
 
 

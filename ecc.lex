@@ -28,6 +28,9 @@ void yysetstream(std::istream* ps)
 	} \
     }
 
+#undef YY_DECL
+#define YY_DECL int _yylex(void)
+
 %}
 
 DIGIT [0-9]
