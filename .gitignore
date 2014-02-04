@@ -1,0 +1,7 @@
+*.d
+TAGS
+*.o
+*.gcda
+*.gcno
+a.out
+*~
