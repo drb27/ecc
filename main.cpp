@@ -48,9 +48,13 @@ int main(int argc, char** argv )
 	}
 
     yylex_init();
-    
+
+#ifdef PARSER_PRESENT
+    yyparse();
+#elseif
     while ( auto tk = yylex() )
     {
 	std::cout << tk << std::endl;
     }
+#endif
 }
