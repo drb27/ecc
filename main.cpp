@@ -1,60 +1,30 @@
 #include <iostream>
 #include <sstream>
 #include <vector>
-#include "tokens.h"
+#include <map>
+#include <string>
+#include "ast.h"
+#include "ecc.tab.h"
 
 extern int _yylex(void);
 extern void yysetstream(std::istream*);
 
-typedef std::vector<token_t> tokenstack_t;
-tokenstack_t::iterator i;
-
-// A place to store the tokens
-tokenstack_t tokenstack;
-
-int yylex(void)
+namespace ecc
 {
-    if (i!=tokenstack.end())
-    {
-	int retval = (int)(*i);
-	i++;
-	return retval;
-    }
-    else
-	return NULLTOKEN;
+    ecc::ast::elist_t MasterList;
 }
 
-void yylex_init(void)
-{
-    i = tokenstack.begin();
-}
+int yylex(void) { return _yylex(); }
 
-int main(int argc, char** argv )
+int main(void)
 {
-    // Set up the input stream
     std::stringstream ss;
-    ss << "123;";
-
-    // Set the reference
+    ss << "typedef enum { frog=9, banana = 7 } enum_t; typedef enum { willow } other_t;";
     yysetstream(&ss);
-
-
-    // Do the thing
-    token_t token;
-    while ( token=(token_t)_yylex() )
-	{
-	    std::cout << token << std::endl;
-	    tokenstack.push_back(token);
-	}
-
-    yylex_init();
-
-#ifdef PARSER_PRESENT
     yyparse();
-#elseif
-    while ( auto tk = yylex() )
+
+    for (auto i : ecc::MasterList)
     {
-	std::cout << tk << std::endl;
+	std::cout << i->get_name() << std::endl;
     }
-#endif
 }
