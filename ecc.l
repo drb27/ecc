@@ -39,16 +39,17 @@ void yysetstream(std::istream* ps)
 
 DIGIT [0-9]
 ID    [a-z][a-z0-9_]*
+WS    [ \t]+
 %%
 
-typedef    { std::cout << "TYPEDEF"; return TYPEDEF; }
-enum       { std::cout << "ENUM"; return ENUM; }
-\{          { std::cout << "CURLY_OPEN"; return CURLY_OPEN; }
-\}          { std::cout << "CURLY_CLOSE"; return CURLY_CLOSE; }
-\;          { return SEMICOLON; }
+typedef    { return TYPEDEF; }
+enum       { return  ENUM; }
+\{         { return CURLY_OPEN; }
+\}         { return CURLY_CLOSE; }
+\;         { return SEMICOLON; }
 ,          { return COMMA; }
 =          { return EQUALS; }
 {DIGIT}+   { yylval.int_val = atoi(yytext); return INTEGER; }
-{ID}       { yylval.string_val = new std::string(yytext); std::cout << yytext; return IDENTIFIER; }
-
+{ID}       { yylval.string_val = new std::string(yytext); return IDENTIFIER; }
+{WS}
 %%

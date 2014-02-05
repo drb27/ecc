@@ -24,7 +24,6 @@ namespace ecc
 	    enumdef(const std::string* );
 	    virtual ~enumdef();
 
-	    virtual void setvalues( const values_t& );
 	    virtual const values_t& getvalues();
 	    virtual void insert_value( const pair_t& pPair);
 	    virtual void setname( std::string* nm);

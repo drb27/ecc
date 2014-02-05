@@ -20,7 +20,7 @@ int yylex(void) { return _yylex(); }
 int main(void)
 {
     std::stringstream ss;
-    ss << "typedef enum { frog=9, banana = 7 } enum_t; typedef enum { willow } other_t;";
+    ss << "typedef enum { frog=9, tree, banana = 7 } enum_t; typedef enum { willow } other_t;";
     yysetstream(&ss);
     yyparse();
 

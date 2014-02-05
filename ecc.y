@@ -45,42 +45,43 @@ using namespace ecc::ast;
 %%
 
 input:   /* empty */ 
-     | enumlist     { std::cout << "Matched input"; } 
+    | enumlist
      ;
 
 enumlist: enumdef
-	 | enumlist enumdef;
+	| enumlist enumdef;
 
 enumdef: TYPEDEF 
     { CurrentEnumDef = new enumdef(); } 
     ENUM CURLY_OPEN valuelist CURLY_CLOSE IDENTIFIER SEMICOLON 
     { CurrentEnumDef->setname($7); MasterList.push_back( CurrentEnumDef ); };
-
-
+    
+    
 valuelist:   firstvaluepair  
 	| firstvaluepair subsequentlist
 	;
-
+    
 subsequentlist:   subsequentvaluepair 
-                | subsequentlist subsequentvaluepair;
-
+	| subsequentlist subsequentvaluepair;
+    
 firstvaluepair:   
-	 IDENTIFIER  
-	 { CurrentEnumDef->insert_value(pair_t(*$1,AST_DEFAULT_ENUM_VALUE) ); delete $1; }
-	 | IDENTIFIER EQUALS INTEGER 
-	 { CurrentEnumDef->insert_value(pair_t(*$1,$3) ); delete $1; }
-	 ;
-
+    IDENTIFIER  
+    { CurrentEnumDef->insert_value(pair_t(*$1,AST_DEFAULT_ENUM_VALUE) ); delete $1; }
+    | IDENTIFIER EQUALS INTEGER 
+    { CurrentEnumDef->insert_value(pair_t(*$1,$3) ); delete $1; }
+    ;
+    
 subsequentvaluepair:   
-	 COMMA IDENTIFIER 
-	 { CurrentEnumDef->insert_value(pair_t(*$2,AST_DEFAULT_ENUM_VALUE) ); delete $2; }
-	 | COMMA IDENTIFIER EQUALS INTEGER 
-	 { CurrentEnumDef->insert_value(pair_t(*$2,$4) ); delete $2; }
-	 ;
-
+    COMMA IDENTIFIER 
+    { CurrentEnumDef->insert_value(pair_t(*$2,AST_DEFAULT_ENUM_VALUE) ); delete $2; }
+    | COMMA IDENTIFIER EQUALS INTEGER 
+    { CurrentEnumDef->insert_value(pair_t(*$2,$4) ); delete $2; }
+    ;
+    
 %%
-
-	 void yyerror(const char* s)
-	 {
-	     std::cout << s << std::endl;
-	 }
+	  
+void yyerror(const char* s)
+{
+    std::cout << s << std::endl;
+}
+	  

@@ -35,12 +35,6 @@ namespace ast
 	delete pName;
     }
 
-    void enumdef::setvalues(const values_t& vs)
-    {
-	// Just do a copy
-	values = vs;
-    }
-
     const values_t& enumdef::getvalues()
     {
 	return values;
