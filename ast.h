@@ -2,36 +2,40 @@
 #ifndef AST_H_
 #define AST_H_
 
+
+#define AST_DEFAULT_ENUM_VALUE (-1)
+
 namespace ecc
 {
     namespace ast
     {
 
-	/** 
-	 * map of string to int for holding enum values
-	 */
+	/** map of string to int for holding enum values */
 	typedef std::map<std::string,int> values_t;
 
-	/**
-	 * a complete definition of an enum
-	 */
+	/** Quick access to the pair type */
+	typedef values_t::value_type pair_t;
+
+	/** complete definition of an enum */
 	class enumdef
 	{
 	public:
+	    enumdef();
 	    enumdef(const std::string* );
 	    virtual ~enumdef();
 
 	    virtual void setvalues( const values_t& );
+	    virtual const values_t& getvalues();
+	    virtual void insert_value( const pair_t& pPair);
+	    virtual void setname( std::string* nm);
 	    virtual const std::string& get_name(void) final;
 
 	protected:
-	    const std::string name;
+	    std::string name;
 	    values_t values; 
 	};
     
-	/**
-	 * list type for the list of enumdefs at the top of the tree
-	 */
+	/** list type for the list of enumdefs at the top of the tree */
 	typedef std::vector<enumdef*> elist_t;
 
     }

@@ -12,6 +12,7 @@ extern void yysetstream(std::istream*);
 namespace ecc
 {
     ecc::ast::elist_t MasterList;
+    ecc::ast::enumdef* CurrentEnumDef;
 }
 
 int yylex(void) { return _yylex(); }
@@ -25,6 +26,11 @@ int main(void)
 
     for (auto i : ecc::MasterList)
     {
-	std::cout << i->get_name() << std::endl;
+	std::cout << i->get_name() << ":" << std::endl;
+	
+	for (auto v : i->getvalues() )
+	{
+	    std::cout << v.first << ", "  << v.second <<  std::endl;
+	}
     }
 }

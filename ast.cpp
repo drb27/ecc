@@ -14,15 +14,36 @@ namespace ast
 	delete pName;
     }
 
+    enumdef::enumdef() : name("")
+    {
+
+    }
+
     enumdef::~enumdef()
     {
 
+    }
+
+    void enumdef::insert_value(const pair_t& pair)
+    {
+	values.insert(pair);
+    }
+
+    void enumdef::setname(std::string* pName)
+    {
+	name = *pName;
+	delete pName;
     }
 
     void enumdef::setvalues(const values_t& vs)
     {
 	// Just do a copy
 	values = vs;
+    }
+
+    const values_t& enumdef::getvalues()
+    {
+	return values;
     }
 
     const std::string& enumdef::get_name(void)
