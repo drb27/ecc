@@ -27,7 +27,7 @@ namespace ecc
 	    virtual const values_t& getvalues();
 	    virtual void insert_value( const pair_t& pPair);
 	    virtual void setname( std::string* nm);
-	    virtual const std::string& get_name(void) final;
+	    virtual const std::string& get_name(void) const final;
 
 	protected:
 	    std::string name;

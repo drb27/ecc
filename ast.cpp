@@ -40,7 +40,7 @@ namespace ast
 	return values;
     }
 
-    const std::string& enumdef::get_name(void)
+    const std::string& enumdef::get_name(void) const
     {
 	return name;
     }

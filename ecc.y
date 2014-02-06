@@ -62,7 +62,8 @@ valuelist:   firstvaluepair
 	;
     
 subsequentlist:   subsequentvaluepair 
-	| subsequentlist subsequentvaluepair;
+	| subsequentlist subsequentvaluepair
+	;
     
 firstvaluepair:   
     IDENTIFIER  
