@@ -35,7 +35,7 @@ namespace ast
 	delete pName;
     }
 
-    const values_t& enumdef::getvalues()
+    const values_t& enumdef::getvalues() const
     {
 	return values;
     }

@@ -32,6 +32,8 @@ namespace ecc
     protected:
 	virtual const std::string tl_header() const;
 	virtual const std::string tl_typedef(const ast::enumdef& ed) const;
+	virtual const std::string tl_strings(const ast::elist_t& items) const;
+	virtual const std::string tl_functions(const ast::enumdef& ed) const;
     };
 }
 
