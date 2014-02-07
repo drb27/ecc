@@ -9,37 +9,39 @@
 #include "generator.h"
 #include "ecc.tab.h"
 
-#define VERSION "ecc v0.0alpha"
-
 extern int _yylex(void);
 extern void yysetstream(std::istream*);
 
 namespace ecc
 {
-    static const std::string version = VERSION;
-    ast::elist_t MasterList;
-    ast::enumdef* CurrentEnumDef;
+    extern const std::string version = "ecc v0.0alpha"; /**< Version string */
+    ast::elist_t MasterList;				/**< Parser places output here */
+    ast::enumdef* CurrentEnumDef;			/**< Used during parsing */
 }
 
+/**
+ * Included for future use
+ */
 int yylex(void) { return _yylex(); }
 
+/**
+ * Main execution loop of the ecc utility
+ */
 int main(void)
 {
+    // Set up example input
     std::stringstream ss;
-    ss << "typedef enum { frog=9, tree, banana = 7 } enum_t; typedef enum { willow } other_t;";
+    
+    ss << "typedef enum { frog=9, tree, banana = 7 } enum_t;"
+       << "typedef enum { willow } other_t;";
+    
+    // Tell the scanner where to get its input
     yysetstream(&ss);
+
+    // Parse the stream
     yyparse();
 
-    // for (auto i : ecc::MasterList)
-    // {
-    // 	std::cout << i->get_name() << ":" << std::endl;
-	
-    // 	for (auto v : i->getvalues() )
-    // 	{
-    // 	    std::cout << v.first << ", "  << v.second <<  std::endl;
-    // 	}
-    // }
-
+    // Generate the output (defaults to std::cout)
     ecc::generator* pGen = new ecc::defgen();
     pGen->translate( ecc::MasterList );
     delete pGen;
