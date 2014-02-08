@@ -23,24 +23,25 @@ namespace ecc
 
 namespace
 {
+    /** Holds a pointer to the current input stream, for ecc::input to access */
     std::istream* pStream;
 }
 
 namespace ecc
 {
+    /** Provides stream input functionality to the lexer. */
     void input(char* buf, int& result, size_t max_size)
     {
- 	char c;
  	if (pStream->peek()==EOF)
  	    result = YY_NULL;			
  	else 
 	{ 
-	    pStream->read(&c,1); 
-	    buf[0] = c; 
-	    result = 1; 
+	    pStream->read(buf,max_size); 
+	    result = pStream->gcount(); 
  	} 
 
     }
+
 }
 
 /**
