@@ -6,3 +6,6 @@ TAGS
 *.gcno
 a.out
 *~
+ecc.tab.c
+ecc.tab.h
+lex.yy.c
