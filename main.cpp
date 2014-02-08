@@ -36,6 +36,16 @@ namespace
     /** Name of the output file */
     std::string outputFile="";
 
+    /** Valid set of exit status codes */
+    enum class es
+    {
+	ok=0,			/**< Command completed successfully */
+	badParams=1,		/**< Bad command line / options */
+	inputError=2,		/**< Couldn't open or read the input file */
+        outputError=3,	        /**< Couldn't create or write the output file */
+	syntaxError=4 	        /**< Malformed input file */
+    };
+
 }
 
 namespace ecc
@@ -53,12 +63,6 @@ namespace ecc
 
     }
 
-    typedef enum
-    {
-	EcOk=0,
-	EcBadParams=1
-    } exitstatus_t;
-
 }
 
 /**
@@ -67,7 +71,7 @@ namespace ecc
 int yylex(void) { return _yylex(); }
 
 /** Parses input options */
-static ecc::exitstatus_t parse_options(int argc, char** argv)
+static es parse_options(int argc, char** argv)
 {
     // Skip over executable name
     argc--; argv++;
@@ -128,15 +132,15 @@ static ecc::exitstatus_t parse_options(int argc, char** argv)
     if ( inputFile==outputFile) goto filespec;
 
     // All good
-    return ecc::EcOk;
+    return es::ok;
 
 malformed:
     std::cerr << StrMalformed << std::endl;
-    return ecc::EcBadParams;
+    return es::badParams;
 
 filespec:
     std::cerr << StrFilespec << std::endl;
-    return ecc::EcBadParams;
+    return es::badParams;
 
 }
 
@@ -145,11 +149,11 @@ filespec:
  */
 int main(int argc, char** argv)
 {
-    ecc::exitstatus_t exit_code=ecc::EcOk;
+    es exit_code=es::ok;
 
     // Parse the command line parameters
-    if (ecc::EcOk!=(exit_code = parse_options(argc,argv)))
-	exit(exit_code);
+    if (es::ok!=(exit_code = parse_options(argc,argv)))
+	exit((int)exit_code);
     
     // Set up example input
     std::stringstream ss;
@@ -171,5 +175,5 @@ int main(int argc, char** argv)
     pGen->translate( ecc::MasterList );
     delete pGen;
 
-    exit(ecc::EcOk);
+    exit((int)es::ok);
 }
