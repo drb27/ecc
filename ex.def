@@ -1,0 +1,12 @@
+typedef enum
+{
+    red, blue, green
+} color_t;
+
+typedef enum
+{
+	noflags,
+	readfile=1,
+	writefile=2,
+	truncatefile=4
+} flags_t;
