@@ -12,11 +12,35 @@
 extern int _yylex(void);
 extern void yysetstream(std::istream*);
 
+#define YY_NULL (0)
+
 namespace ecc
 {
     extern const std::string version = "ecc v0.0alpha"; /**< Version string */
     ast::elist_t MasterList;				/**< Parser places output here */
     ast::enumdef* CurrentEnumDef;			/**< Used during parsing */
+}
+
+namespace
+{
+    std::istream* pStream;
+}
+
+namespace ecc
+{
+    void input(char* buf, int& result, size_t max_size)
+    {
+ 	char c;
+ 	if (pStream->peek()==EOF)
+ 	    result = YY_NULL;			
+ 	else 
+	{ 
+	    pStream->read(&c,1); 
+	    buf[0] = c; 
+	    result = 1; 
+ 	} 
+
+    }
 }
 
 /**
@@ -36,7 +60,7 @@ int main(void)
        << "typedef enum { willow } other_t;";
     
     // Tell the scanner where to get its input
-    yysetstream(&ss);
+    pStream = &ss;
 
     // Parse the stream
     yyparse();

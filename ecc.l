@@ -8,36 +8,16 @@
 #include "ast.h"
 #include "ecc.tab.h"
 
-namespace {
-
-    static std::istream* pStream;
-
-}
-
-void yysetstream(std::istream* ps)
-{
-    pStream = ps;
-}
-;; /** @todo: MOVE pStream TO MAIN (ecc namespace)
-;;            PROVIDE IMPLEMENTATION FOR ecc::input
-;;            GET RID OF yysetstream */
-
 #undef YY_INPUT
-#define YY_INPUT(buf,result,max_size) ecc::input(buf,result,maxsize);
-;; #define YY_INPUT(buf,result,max_size) \
-;;     { \
-;; 	char c; \
-;; 	if (pStream->peek()==EOF) \
-;; 	    result = YY_NULL;			\
-;; 	else { \
-;; 	pStream->read(&c,1); \
-;; 	buf[0] = c; \
-;; 	result = 1; \
-;; 	} \
-;;     }
+#define YY_INPUT(buf,result,max_size) ecc::input(buf,result,max_size);
 
 #undef YY_DECL
 #define YY_DECL int _yylex(void)
+
+namespace ecc
+{
+    extern void input(char*,int&,size_t);
+}
 
 %}
 
