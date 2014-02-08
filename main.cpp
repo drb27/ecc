@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <vector>
 #include <map>
@@ -27,6 +28,13 @@ namespace
 
     /** String to print in the event that the command line is malformed */
     const std::string StrMalformed = "Usage: ecc -c <infile> [-o <outfile>]";
+    const std::string StrFilespec = "Input cannot be the same file as the output";
+
+    /** Name of the input file */
+    std::string inputFile="";
+
+    /** Name of the output file */
+    std::string outputFile="";
 
 }
 
@@ -71,15 +79,65 @@ static ecc::exitstatus_t parse_options(int argc, char** argv)
     // Loop over param pairs
     while (argc)
     {
-	const std::string option(*argv);
-	argc--; argv++;
+	const std::string option(*argv); argc--; argv++;
+	
+	if ( (!argc) || (option[0]!='-') ) goto malformed;
+
+	const std::string param(*argv); argc--; argv++;
+
+	switch (option[1])
+	{
+	case 'c':
+	    inputFile = param;
+	    break;
+
+	case 'o':
+	    outputFile = param;
+	    break;
+
+	default:
+	    goto malformed;
+	}
+
     }
 
+    // Check that we got mandatory options
+    if ( inputFile.length() < 1 )
+	goto malformed;
+    
+    // If no output file was set, calculate name from input file
+    if ( outputFile.length() < 1 )
+    {
+	size_t index_ext = inputFile.rfind('.');
+	size_t index_leaf = inputFile.rfind('/');
+
+	if ( (index_ext == std::string::npos) 
+	     || ( index_leaf!=std::string::npos && (index_leaf > index_ext) ) )
+	{
+	    // There's no file extension, simply add one
+	    outputFile = inputFile + ".c";
+	}
+	else
+	{
+	    // There is a file extension
+	    outputFile = inputFile.substr(0,index_ext) + ".c";
+	}
+    }
+    
+    // Check that the input and output files are different
+    if ( inputFile==outputFile) goto filespec;
+
+    // All good
     return ecc::EcOk;
 
 malformed:
     std::cerr << StrMalformed << std::endl;
     return ecc::EcBadParams;
+
+filespec:
+    std::cerr << StrFilespec << std::endl;
+    return ecc::EcBadParams;
+
 }
 
 /**
@@ -92,18 +150,21 @@ int main(int argc, char** argv)
     // Parse the command line parameters
     if (ecc::EcOk!=(exit_code = parse_options(argc,argv)))
 	exit(exit_code);
-
+    
     // Set up example input
     std::stringstream ss;
     
     ss << "typedef enum { frog=9, tree, banana = 7 } enum_t;"
        << "typedef enum { willow } other_t;";
-    
+
     // Tell the scanner where to get its input
-    pStream = &ss;
+    std::ifstream fs(inputFile);
+    pStream = &fs;
 
     // Parse the stream
     yyparse();
+
+    fs.close();
 
     // Generate the output (defaults to std::cout)
     ecc::generator* pGen = new ecc::defgen();
