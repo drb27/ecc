@@ -28,7 +28,9 @@ namespace
 
     /** String to print in the event that the command line is malformed */
     const std::string StrMalformed = "Usage: ecc -c <infile> [-o <outfile>]";
-    const std::string StrFilespec = "Input cannot be the same file as the output";
+    const std::string StrFilespec = "ERROR: Input cannot be the same file as the output";
+    const std::string StrOpenInputFailed = "ERROR: Cannot open input file ";
+    const std::string StrOpenOutputFailed = "ERROR: Cannot open output file ";
 
     /** Name of the input file */
     std::string inputFile="";
@@ -155,25 +157,37 @@ int main(int argc, char** argv)
     if (es::ok!=(exit_code = parse_options(argc,argv)))
 	exit((int)exit_code);
     
-    // Set up example input
-    std::stringstream ss;
+    // Attempt to open the input file
+    std::ifstream ifs(inputFile);
     
-    ss << "typedef enum { frog=9, tree, banana = 7 } enum_t;"
-       << "typedef enum { willow } other_t;";
-
+    if (ifs.fail() )
+    {
+	std::cerr << StrOpenInputFailed << inputFile << std::endl; 
+	exit((int)es::inputError);
+    }
+    
     // Tell the scanner where to get its input
-    std::ifstream fs(inputFile);
-    pStream = &fs;
+    pStream = &ifs;
 
-    // Parse the stream
+    // Parse the stream, close the input
     yyparse();
+    ifs.close();
 
-    fs.close();
+    // Attempt to open the output file
+    std::ofstream ofs(outputFile, std::ofstream::trunc);
+    
+    if ( ofs.fail() )
+    {
+	std::cerr << StrOpenOutputFailed << outputFile << std::endl;
+	exit((int)es::outputError);	
+    }
 
     // Generate the output (defaults to std::cout)
     ecc::generator* pGen = new ecc::defgen();
-    pGen->translate( ecc::MasterList );
+    pGen->translate( ecc::MasterList, ofs );
     delete pGen;
+
+    ofs.close();
 
     exit((int)es::ok);
 }
