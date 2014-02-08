@@ -23,7 +23,7 @@ namespace ecc
 
 DIGIT [0-9]
 ID    [a-z][a-z0-9_]*
-WS    [ \t]+
+WS    [ \t\n]+
 %%
 
 typedef    { return TYPEDEF; }
