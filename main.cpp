@@ -10,7 +10,6 @@
 #include "ecc.tab.h"
 
 extern int _yylex(void);
-extern void yysetstream(std::istream*);
 
 #define YY_NULL (0)
 
@@ -25,6 +24,10 @@ namespace
 {
     /** Holds a pointer to the current input stream, for ecc::input to access */
     std::istream* pStream;
+
+    /** String to print in the event that the command line is malformed */
+    const std::string StrMalformed = "Usage: ecc -c <infile> [-o <outfile>]";
+
 }
 
 namespace ecc
@@ -42,6 +45,12 @@ namespace ecc
 
     }
 
+    typedef enum
+    {
+	EcOk=0,
+	EcBadParams=1
+    } exitstatus_t;
+
 }
 
 /**
@@ -49,11 +58,41 @@ namespace ecc
  */
 int yylex(void) { return _yylex(); }
 
+/** Parses input options */
+static ecc::exitstatus_t parse_options(int argc, char** argv)
+{
+    // Skip over executable name
+    argc--; argv++;
+
+    // Check minimum params
+    if (argc<2)
+	goto malformed;
+
+    // Loop over param pairs
+    while (argc)
+    {
+	const std::string option(*argv);
+	argc--; argv++;
+    }
+
+    return ecc::EcOk;
+
+malformed:
+    std::cerr << StrMalformed << std::endl;
+    return ecc::EcBadParams;
+}
+
 /**
  * Main execution loop of the ecc utility
  */
-int main(void)
+int main(int argc, char** argv)
 {
+    ecc::exitstatus_t exit_code=ecc::EcOk;
+
+    // Parse the command line parameters
+    if (0!=(exit_code = parse_options(argc,argv)))
+	exit(exit_code);
+
     // Set up example input
     std::stringstream ss;
     
@@ -70,4 +109,6 @@ int main(void)
     ecc::generator* pGen = new ecc::defgen();
     pGen->translate( ecc::MasterList );
     delete pGen;
+
+    exit(ecc::EcOk);
 }
