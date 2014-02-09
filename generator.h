@@ -16,18 +16,28 @@ namespace ecc
 	virtual ~generator();
 
 	/** Translate the given enum definitions, and write to the given stream. 
-	 * @param ostr a reference to the output stream to receive the output
+	 * @param ostr_c a reference to the output stream to receive the code output
+	 * @param ostr_h a reference to the output stream to receive the header output
 	 * @param items the list of enum definitions to translate
+	 * @param fHeader the file name of the header file (might not be leaf)
+	 * @param fCode the file name of the c file (might not be leaf)
 	 */
 	virtual void translate(const ast::elist_t& items, 
-			       std::ostream& ostr = std::cout )=0;
+	                       const std::string& fHeader,
+	                       const std::string& fCode,
+			       std::ostream& ostr_c = std::cout, 
+			       std::ostream& ostr_h = std::cout)=0;
 	
     };
 
     class defgen : public generator
     {
     public:
-	virtual void translate(const ast::elist_t& items,std::ostream& ostr);
+	virtual void translate(const ast::elist_t& items, 
+			       const std::string& fHeader,
+			       const std::string& fCode,
+			       std::ostream& ostr_c, 
+			       std::ostream& ostr_h);
 	
     protected:
 	virtual const std::string tl_header() const;
