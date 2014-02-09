@@ -35,8 +35,13 @@ namespace
     /** Name of the input file */
     std::string inputFile="";
 
-    /** Name of the output file */
-    std::string outputFile="";
+    /** Name of the output file (compilation unit) */
+    std::string outputFileCode="";
+
+    /** Name of the output file (header) */
+    std::string outputFileHeader="";
+
+
 
     /** Valid set of exit status codes */
     enum class es
@@ -72,6 +77,25 @@ namespace ecc
  */
 int yylex(void) { return _yylex(); }
 
+/** Calculates the default output file name from the input file name */
+static std::string default_outfile(const std::string& ifn, const std::string& fext)
+{
+
+    size_t index_ext = ifn.rfind('.');
+    size_t index_leaf = ifn.rfind('/');
+    std::string ofn;
+
+    if ( (index_ext == std::string::npos) 
+	 || ( index_leaf!=std::string::npos && (index_leaf > index_ext) ) )
+	// There's no file extension, simply add one
+	ofn = ifn + "." + fext;
+    else
+	// There is a file extension
+	ofn = ifn.substr(0,index_ext) + "." + fext;
+
+    return ofn;
+}
+
 /** Parses input options */
 static es parse_options(int argc, char** argv)
 {
@@ -98,7 +122,11 @@ static es parse_options(int argc, char** argv)
 	    break;
 
 	case 'o':
-	    outputFile = param;
+	    outputFileCode = param;
+	    break;
+
+	case 'h':
+	    outputFileHeader = param;
 	    break;
 
 	default:
@@ -111,27 +139,18 @@ static es parse_options(int argc, char** argv)
     if ( inputFile.length() < 1 )
 	goto malformed;
     
-    // If no output file was set, calculate name from input file
-    if ( outputFile.length() < 1 )
-    {
-	size_t index_ext = inputFile.rfind('.');
-	size_t index_leaf = inputFile.rfind('/');
-
-	if ( (index_ext == std::string::npos) 
-	     || ( index_leaf!=std::string::npos && (index_leaf > index_ext) ) )
-	{
-	    // There's no file extension, simply add one
-	    outputFile = inputFile + ".c";
-	}
-	else
-	{
-	    // There is a file extension
-	    outputFile = inputFile.substr(0,index_ext) + ".c";
-	}
-    }
+    // If no output file (code) was set, calculate name from input file
+    if ( outputFileCode.length() < 1 )
+	outputFileCode = default_outfile(inputFile,"c");
+    
+    // If no output file (header) was set, calculate name from input file
+    if ( outputFileHeader.length() < 1 )
+	outputFileHeader = default_outfile(inputFile,"h");
     
     // Check that the input and output files are different
-    if ( inputFile==outputFile) goto filespec;
+    if ( inputFile==outputFileCode) goto filespec;
+    if ( inputFile==outputFileHeader) goto filespec;
+    if ( outputFileCode==outputFileHeader) goto filespec;
 
     // All good
     return es::ok;
@@ -173,21 +192,31 @@ int main(int argc, char** argv)
     yyparse();
     ifs.close();
 
-    // Attempt to open the output file
-    std::ofstream ofs(outputFile, std::ofstream::trunc);
+    // Attempt to open the output file (code)
+    std::ofstream ofsc(outputFileCode, std::ofstream::trunc);
     
-    if ( ofs.fail() )
+    if ( ofsc.fail() )
     {
-	std::cerr << StrOpenOutputFailed << outputFile << std::endl;
+	std::cerr << StrOpenOutputFailed << outputFileCode << std::endl;
+	exit((int)es::outputError);	
+    }
+
+    // Attempt to open the output file (header)
+    std::ofstream ofsh(outputFileHeader, std::ofstream::trunc);
+    
+    if ( ofsh.fail() )
+    {
+	std::cerr << StrOpenOutputFailed << outputFileHeader << std::endl;
 	exit((int)es::outputError);	
     }
 
     // Generate the output (defaults to std::cout)
     ecc::generator* pGen = new ecc::defgen();
-    pGen->translate( ecc::MasterList, ofs );
+    pGen->translate( ecc::MasterList, outputFileHeader, outputFileCode, ofsc, ofsh );
     delete pGen;
 
-    ofs.close();
+    ofsc.close();
+    ofsh.close();
 
     exit((int)es::ok);
 }
