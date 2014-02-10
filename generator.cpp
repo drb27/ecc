@@ -49,7 +49,7 @@ namespace ecc
 	
 	ostr_c << "#include \"" << headerLeaf << "\"" << std::endl;
 
-	std::string guard = headerLeaf + "_";
+	std::string guard = "_HG_" + headerLeaf + "_";
 	for ( auto i = guard.begin(); i!=guard.end(); i++ )
 	{
 	    if ( (*i) == '.') 
