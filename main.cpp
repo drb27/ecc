@@ -16,7 +16,7 @@ extern int _yylex(void);
 
 namespace ecc
 {
-    extern const std::string version = "ecc v0.0alpha"; /**< Version string */
+    extern const std::string version = "ecc v0.1beta";  /**< Version string */
     ast::elist_t MasterList;				/**< Parser places output here */
     ast::enumdef* CurrentEnumDef;			/**< Used during parsing */
 }
