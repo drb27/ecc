@@ -49,7 +49,17 @@ namespace ecc
 	
 	ostr_c << "#include \"" << headerLeaf << "\"" << std::endl;
 
-	/** @todo need include guards in the header */
+	std::string guard = headerLeaf + "_";
+	for ( auto i = guard.begin(); i!=guard.end(); i++ )
+	{
+	    if ( (*i) == '.') 
+		(*i) = '_';
+	    else
+		(*i) = toupper(*i);
+	}
+
+	ostr_h << "#ifndef " << guard << std::endl;
+	ostr_h << "#define " << guard << std::endl;
 
 	for ( auto pEnum : items )
 	{
@@ -62,6 +72,8 @@ namespace ecc
 	{
 	    ostr_c << tl_functions(*pEnum);
 	}
+
+	ostr_h << std::endl << "#endif // " << guard << std::endl;
 
     }
 
