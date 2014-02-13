@@ -14,9 +14,17 @@ extern int _yylex(void);
 
 #define YY_NULL (0)
 
+using std::string;
+using std::cerr;
+using std::cout;
+using std::endl;
+using std::ofstream;
+using std::istream;
+using std::ifstream;
+
 namespace ecc
 {
-    extern const std::string version = "ecc v0.1beta";  /**< Version string */
+    extern const string version = "ecc v0.1beta";  /**< Version string */
     ast::elist_t MasterList;				/**< Parser places output here */
     ast::enumdef* CurrentEnumDef;			/**< Used during parsing */
 }
@@ -24,24 +32,22 @@ namespace ecc
 namespace
 {
     /** Holds a pointer to the current input stream, for ecc::input to access */
-    std::istream* pStream;
+    istream* pStream;
 
     /** String to print in the event that the command line is malformed */
-    const std::string StrMalformed = "Usage: ecc -c <infile> [-o <outfile>]";
-    const std::string StrFilespec = "ERROR: Input cannot be the same file as the output";
-    const std::string StrOpenInputFailed = "ERROR: Cannot open input file ";
-    const std::string StrOpenOutputFailed = "ERROR: Cannot open output file ";
+    const string StrMalformed = "Usage: ecc -c <infile> [-o <outfile>]";
+    const string StrFilespec = "ERROR: Input cannot be the same file as the output";
+    const string StrOpenInputFailed = "ERROR: Cannot open input file ";
+    const string StrOpenOutputFailed = "ERROR: Cannot open output file ";
 
     /** Name of the input file */
-    std::string inputFile="";
+    string inputFile="";
 
     /** Name of the output file (compilation unit) */
-    std::string outputFileCode="";
+    string outputFileCode="";
 
     /** Name of the output file (header) */
-    std::string outputFileHeader="";
-
-
+    string outputFileHeader="";
 
     /** Valid set of exit status codes */
     enum class es
@@ -78,15 +84,15 @@ namespace ecc
 int yylex(void) { return _yylex(); }
 
 /** Calculates the default output file name from the input file name */
-static std::string default_outfile(const std::string& ifn, const std::string& fext)
+static string default_outfile(const string& ifn, const string& fext)
 {
 
     size_t index_ext = ifn.rfind('.');
     size_t index_leaf = ifn.rfind('/');
-    std::string ofn;
+    string ofn;
 
-    if ( (index_ext == std::string::npos) 
-	 || ( index_leaf!=std::string::npos && (index_leaf > index_ext) ) )
+    if ( (index_ext == string::npos) 
+	 || ( index_leaf!=string::npos && (index_leaf > index_ext) ) )
 	// There's no file extension, simply add one
 	ofn = ifn + "." + fext;
     else
@@ -109,11 +115,11 @@ static es parse_options(int argc, char** argv)
     // Loop over param pairs
     while (argc)
     {
-	const std::string option(*argv); argc--; argv++;
+	const string option(*argv); argc--; argv++;
 	
 	if ( (!argc) || (option[0]!='-') ) goto malformed;
 
-	const std::string param(*argv); argc--; argv++;
+	const string param(*argv); argc--; argv++;
 
 	switch (option[1])
 	{
@@ -156,11 +162,11 @@ static es parse_options(int argc, char** argv)
     return es::ok;
 
 malformed:
-    std::cerr << StrMalformed << std::endl;
+    cerr << StrMalformed << endl;
     return es::badParams;
 
 filespec:
-    std::cerr << StrFilespec << std::endl;
+    cerr << StrFilespec << endl;
     return es::badParams;
 
 }
@@ -177,11 +183,11 @@ int main(int argc, char** argv)
 	exit((int)exit_code);
     
     // Attempt to open the input file
-    std::ifstream ifs(inputFile);
+    ifstream ifs(inputFile);
     
     if (ifs.fail() )
     {
-	std::cerr << StrOpenInputFailed << inputFile << std::endl; 
+	cerr << StrOpenInputFailed << inputFile << endl; 
 	exit((int)es::inputError);
     }
     
@@ -193,24 +199,24 @@ int main(int argc, char** argv)
     ifs.close();
 
     // Attempt to open the output file (code)
-    std::ofstream ofsc(outputFileCode, std::ofstream::trunc);
+    ofstream ofsc(outputFileCode, ofstream::trunc);
     
     if ( ofsc.fail() )
     {
-	std::cerr << StrOpenOutputFailed << outputFileCode << std::endl;
+	cerr << StrOpenOutputFailed << outputFileCode << endl;
 	exit((int)es::outputError);	
     }
 
     // Attempt to open the output file (header)
-    std::ofstream ofsh(outputFileHeader, std::ofstream::trunc);
+    ofstream ofsh(outputFileHeader, ofstream::trunc);
     
     if ( ofsh.fail() )
     {
-	std::cerr << StrOpenOutputFailed << outputFileHeader << std::endl;
+	cerr << StrOpenOutputFailed << outputFileHeader << endl;
 	exit((int)es::outputError);	
     }
 
-    // Generate the output (defaults to std::cout)
+    // Generate the output (defaults to cout)
     ecc::generator* pGen = new ecc::defgen();
     pGen->translate( ecc::MasterList, outputFileHeader, outputFileCode, ofsc, ofsh );
     delete pGen;
