@@ -14,7 +14,7 @@ namespace ast
 	delete pName;
     }
 
-    enumdef::enumdef() : name("")
+    enumdef::enumdef(bool flg) : name(""),flags(flg)
     {
 
     }

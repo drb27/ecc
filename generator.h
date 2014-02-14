@@ -44,6 +44,7 @@ namespace ecc
 	virtual const std::string tl_typedef(const ast::enumdef& ed) const;
 	virtual const std::string tl_strings(const ast::elist_t& items) const;
 	virtual const std::string tl_functions(const ast::enumdef& ed) const;
+	virtual const std::string tl_functions_flags(const ast::enumdef& ed) const;
     };
 }
 

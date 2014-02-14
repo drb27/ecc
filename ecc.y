@@ -37,6 +37,8 @@ using namespace ecc::ast;
 %token INTEGER
 %token SEMICOLON
 %token TYPEDEF
+%token COLON
+%token ATTR_FLAGS
 
 %type <int_val> INTEGER
 %type <string_val> IDENTIFIER
@@ -49,12 +51,16 @@ input:   /* empty */
      ;
 
 enumlist: enumdef
-	| enumlist enumdef;
+     | enumlist enumdef;
 
-enumdef: TYPEDEF 
-    { CurrentEnumDef = new enumdef(); } 
-    ENUM CURLY_OPEN valuelist CURLY_CLOSE IDENTIFIER SEMICOLON 
-    { CurrentEnumDef->setname($7); MasterList.push_back( CurrentEnumDef ); };
+typedefspec: TYPEDEF ENUM { CurrentEnumDef = new enumdef(); }  
+     | TYPEDEF ENUM COLON ATTR_FLAGS { CurrentEnumDef = new enumdef(true); } 
+     ;
+
+
+enumdef: typedefspec 
+         CURLY_OPEN valuelist CURLY_CLOSE IDENTIFIER SEMICOLON 
+         { CurrentEnumDef->setname($5); MasterList.push_back( CurrentEnumDef ); };
     
     
 valuelist:   firstvaluepair  

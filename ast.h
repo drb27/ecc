@@ -20,7 +20,7 @@ namespace ecc
 	class enumdef
 	{
 	public:
-	    enumdef();
+	    enumdef(bool flg=false);
 	    enumdef(const std::string* );
 	    virtual ~enumdef();
 
@@ -29,9 +29,12 @@ namespace ecc
 	    virtual void setname( std::string* nm);
 	    virtual const std::string& get_name(void) const final;
 
+	    inline bool is_flags(void) const { return flags; }
+
 	protected:
 	    std::string name;
 	    values_t values; 
+	    bool flags;
 	};
     
 	/** list type for the list of enumdefs at the top of the tree */
