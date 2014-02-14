@@ -65,6 +65,8 @@ namespace ecc
 	ostr_h << "#ifndef " << guard << std::endl;
 	ostr_h << "#define " << guard << std::endl;
 
+	ostr_h << std:: endl << "using std::string; " << std::endl;
+
 	for ( auto pEnum : items )
 	{
 	    ostr_h << tl_typedef(*pEnum);
@@ -79,6 +81,8 @@ namespace ecc
 	    else
 		ostr_c << tl_functions(*pEnum);
 	}
+
+	ostr_h << tl_functions_prototypes(items);
 
 	ostr_h << std::endl << "#endif // " << guard << std::endl;
 
@@ -180,6 +184,24 @@ namespace ecc
 	}
 	ss << "    return ss.str();" << endl;
 	ss << "}" << endl;
+	return ss.str();
+    }
+
+    const string defgen::tl_functions_prototypes(const ast::elist_t& items) const
+    {
+	stringstream ss;
+	ss << endl;
+
+	for ( auto pItem : items )
+	{
+	    if (pItem->is_flags())
+		ss << "extern string getstr_" << pItem->get_name() << "("
+		   << pItem->get_name() << ");" << endl;
+	    else
+		ss << "extern const string& getstr_" << pItem->get_name() << "("
+		   << pItem->get_name() << ");" << endl;
+	}
+
 	return ss.str();
     }
 }
