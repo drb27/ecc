@@ -29,6 +29,8 @@ namespace ecc
 	    virtual void setname( std::string* nm);
 	    virtual const std::string& get_name(void) const final;
 
+	    inline bool is_flags(void) const { return flags; }
+
 	protected:
 	    std::string name;
 	    values_t values; 

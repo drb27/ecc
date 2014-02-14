@@ -90,6 +90,10 @@ namespace ecc
     {
 	stringstream ss;
 	ss << endl << "/** typedef " << ed.get_name() << " */" << endl;
+
+	if (ed.is_flags())
+	    ss << "/** NOTE: This enum represents a set of combinable flags */" << endl;
+
 	ss << "typedef enum {";
 
 	string sep = "";
