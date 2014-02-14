@@ -10,6 +10,12 @@ namespace ecc
     namespace ast
     {
 
+        /** Enumeration of different attributes that can be set on the enum definition */ 
+        typedef enum class 
+	{
+	  flags
+	} enumattr;
+
 	/** map of string to int for holding enum values */
 	typedef std::map<std::string,int> values_t;
 
@@ -20,8 +26,8 @@ namespace ecc
 	class enumdef
 	{
 	public:
-	    enumdef(bool flg=false);
-	    enumdef(const std::string* );
+	    enumdef(const std::vector<ecc::ast::enumattr>& attr);
+	    enumdef();
 	    virtual ~enumdef();
 
 	    virtual const values_t& getvalues() const;

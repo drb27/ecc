@@ -14,6 +14,7 @@ namespace ecc
 {
     extern ecc::ast::elist_t MasterList;
     extern ecc::ast::enumdef * CurrentEnumDef;
+    extern std::vector<ecc::ast::enumattr> CurrentAttributes;
 }
 
 using namespace ecc;
@@ -47,14 +48,21 @@ using namespace ecc::ast;
 %%
 
 input:   /* empty */ 
-    | enumlist
+     | enumlist
      ;
+
+attr: ATTR_FLAGS;
+
+attrlist : attr { CurrentAttributes.push_back(ecc::ast::enumattr::flags); }
+    | attrlist COMMA attr { CurrentAttributes.push_back(ecc::ast::enumattr::flags); }
+    ;
 
 enumlist: enumdef
      | enumlist enumdef;
 
 typedefspec: TYPEDEF ENUM { CurrentEnumDef = new enumdef(); }  
-     | TYPEDEF ENUM COLON ATTR_FLAGS { CurrentEnumDef = new enumdef(true); } 
+     | TYPEDEF ENUM COLON { CurrentAttributes.clear(); } 
+       attrlist { CurrentEnumDef = new enumdef(CurrentAttributes); } 
      ;
 
 

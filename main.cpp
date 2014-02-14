@@ -21,12 +21,14 @@ using std::endl;
 using std::ofstream;
 using std::istream;
 using std::ifstream;
+using std::vector;
 
 namespace ecc
 {
-    extern const string version = "ecc v0.1beta";  /**< Version string */
+    extern const string version = "ecc v0.1beta";       /**< Version string */
     ast::elist_t MasterList;				/**< Parser places output here */
     ast::enumdef* CurrentEnumDef;			/**< Used during parsing */
+    vector<ast::enumattr> CurrentAttributes;
 }
 
 namespace

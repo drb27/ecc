@@ -1,4 +1,3 @@
-
 #include <vector>
 #include <string>
 #include <map>
@@ -9,14 +8,17 @@ namespace ecc
 namespace ast
 {
 
-    enumdef::enumdef(const std::string* pName) : name(*pName)
+    enumdef::enumdef() : name("")
     {
-	delete pName;
     }
 
-    enumdef::enumdef(bool flg) : name(""),flags(flg)
+    enumdef::enumdef(const std::vector<ecc::ast::enumattr>& attr) : name("")
     {
-
+      for (auto a : attr)
+      {
+	if ( a == ecc::ast::enumattr::flags)
+	  flags=true;
+      }
     }
 
     enumdef::~enumdef()
