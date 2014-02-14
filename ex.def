@@ -3,7 +3,7 @@ typedef enum
     red, blue, green
 } color_t;
 
-typedef enum
+typedef enum : flags
 {
 	noflags,
 	readfile=1,
