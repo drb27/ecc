@@ -34,6 +34,7 @@ namespace ecc
 
 	/** c file needs to include <string>, and our header */
 	ostr_c << "#include <string>" << endl;
+	ostr_c << "#include <sstream>" << endl;
 
 	string headerLeaf;
 	int pos = fHeader.rfind('/');
@@ -50,6 +51,7 @@ namespace ecc
 	
 	ostr_c << "#include \"" << headerLeaf << "\"" << std::endl;
 	ostr_c << endl <<  "using std::string;" << endl;
+	ostr_c << "using std::stringstream; " << endl;
 
 	string guard = "_HG_" + headerLeaf + "_";
 	for ( auto i = guard.begin(); i!=guard.end(); i++ )
@@ -72,7 +74,10 @@ namespace ecc
 
 	for (auto pEnum : items )
 	{
-	    ostr_c << tl_functions(*pEnum);
+	    if (pEnum->is_flags())
+		ostr_c << tl_functions_flags(*pEnum);
+	    else
+		ostr_c << tl_functions(*pEnum);
 	}
 
 	ostr_h << std::endl << "#endif // " << guard << std::endl;
@@ -154,6 +159,27 @@ namespace ecc
 
 	ss << "}" << endl;
 
+	return ss.str();
+    }
+
+    const string defgen::tl_functions_flags(const ast::enumdef& ed) const
+    {
+	stringstream ss;
+
+	ss << endl << "string getstr_" << ed.get_name() << "("
+	   << ed.get_name() << " v) {" << endl;
+	
+	ss << "    stringstream ss;" << endl;
+	ss << "    bool sep=false;" << endl;
+	
+	for ( auto vp : ed.getvalues() )
+	{
+	    ss << "    if ( v & " << vp.first << ") { if (sep) ss << \",\"; "
+	       << " ss << " << ed.get_name() << "_" << vp.first 
+	       << "; sep=true; }" << endl;
+	}
+	ss << "    return ss.str();" << endl;
+	ss << "}" << endl;
 	return ss.str();
     }
 }
