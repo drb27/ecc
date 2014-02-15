@@ -1,3 +1,4 @@
+%option noyywrap
 %{
 #include <math.h>
 #include <iostream>
@@ -17,13 +18,14 @@
 namespace ecc
 {
     extern void input(char*,int&,size_t);
+    extern int CurrentLine;
 }
 
 %}
 
 DIGIT [0-9]
 ID    [a-z][a-z0-9_]*
-WS    [ \t\n]+
+WS    [ \t]+
 %%
 
 typedef    { return TYPEDEF; }
@@ -38,4 +40,6 @@ flags      { return ATTR_FLAGS; }
 {DIGIT}+   { yylval.int_val = atoi(yytext); return INTEGER; }
 {ID}       { yylval.string_val = new std::string(yytext); return IDENTIFIER; }
 {WS}
+\n         { ecc::CurrentLine++; }
 %%
+

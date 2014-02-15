@@ -95,8 +95,3 @@ subsequentvaluepair:
     
 %%
 	  
-void yyerror(const char* s)
-{
-    std::cout << s << std::endl;
-}
-	  

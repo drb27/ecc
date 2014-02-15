@@ -29,6 +29,7 @@ namespace ecc
     ast::elist_t MasterList;				/**< Parser places output here */
     ast::enumdef* CurrentEnumDef;			/**< Used during parsing */
     vector<ast::enumattr> CurrentAttributes;
+    int CurrentLine=1;		                        /**< Current line of input file */
 }
 
 namespace
@@ -172,6 +173,12 @@ filespec:
     return es::badParams;
 
 }
+
+void yyerror(const char* s)
+{
+    std::cout << "ERROR: syntax error at line " << ecc::CurrentLine <<std::endl;
+}
+
 
 /**
  * Main execution loop of the ecc utility
