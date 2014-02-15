@@ -24,7 +24,7 @@ Try it out with the example file provided, _ex.def_. The output will be written 
 Contributions
 -------------
 
-You are encouraged to contribute improvements to this code. The official repository is at http://github.com/drb27/ecc.
+You are encouraged to contribute improvements to this code. The official repository is at http://github.com/drb27/ecc. You can check out the issues, some of these are labelled __`helpwanted`__.
 
 License
 -------
