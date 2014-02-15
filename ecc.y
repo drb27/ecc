@@ -6,11 +6,12 @@
 using namespace std;
 
 #include "ast.h"
+#include "globals.h"
 
 using namespace ecc;
 using namespace ecc::ast;
 
-#include "globals.h"
+#include "actions.h"
 
 int yylex(void);
 void yyerror(const char*);
@@ -55,15 +56,15 @@ attrlist : attr { CurrentAttributes.push_back(ecc::ast::enumattr::flags); }
 enumlist: enumdef
      | enumlist enumdef;
 
-typedefspec: TYPEDEF ENUM { CurrentEnumDef = new enumdef(); }  
+typedefspec: TYPEDEF ENUM { ac_register_enumdef( new enumdef() ); }  
      | TYPEDEF ENUM COLON { CurrentAttributes.clear(); } 
-       attrlist { CurrentEnumDef = new enumdef(CurrentAttributes); } 
+       attrlist { ac_register_enumdef( new enumdef(CurrentAttributes) ); } 
      ;
 
 
 enumdef: typedefspec 
          CURLY_OPEN valuelist CURLY_CLOSE IDENTIFIER SEMICOLON 
-         { CurrentEnumDef->setname($5); MasterList.push_back( CurrentEnumDef ); }
+         { ac_push_enumdef($5); }
        | error SEMICOLON;
     
     
