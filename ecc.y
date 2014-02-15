@@ -3,11 +3,14 @@
 #include <string>
 #include <iostream>
 #include <map>
+using namespace std;
+
 #include "ast.h"
-#include "globals.h"
 
 using namespace ecc;
 using namespace ecc::ast;
+
+#include "globals.h"
 
 int yylex(void);
 void yyerror(const char*);
@@ -60,7 +63,8 @@ typedefspec: TYPEDEF ENUM { CurrentEnumDef = new enumdef(); }
 
 enumdef: typedefspec 
          CURLY_OPEN valuelist CURLY_CLOSE IDENTIFIER SEMICOLON 
-         { CurrentEnumDef->setname($5); MasterList.push_back( CurrentEnumDef ); };
+         { CurrentEnumDef->setname($5); MasterList.push_back( CurrentEnumDef ); }
+       | error SEMICOLON;
     
     
 valuelist:   firstvaluepair  
