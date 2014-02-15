@@ -11,6 +11,7 @@ Building
 --------
 
 A makefile is provided. The only dependencies are g++, flex, and bison. Ensure these are installed, then type `make`. 
+If you are unsure how to install flex or bison, check the package manager for your linux distribution. On Ubuntu/mint, commands such as `apt-get install flex` and `apt-get install bison` will probably do it for you. 
 
 Running
 -------
