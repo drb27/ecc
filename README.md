@@ -20,3 +20,13 @@ The simplest command line format is:
 `linux:~/$ ecc -c <inputfile>`
 
 Try it out with the example file provided, _ex.def_. The output will be written to _ex.c_ and _ex.h_ by default. 
+
+Contributions
+-------------
+
+You are encouraged to contribute improvements to this code. The official repository is at http://github.com/drb27/ecc.
+
+License
+-------
+
+This software is made available under the MIT license. This is a simple, permissive license which places very few restrictions on your free use of this code. Please see the LICENSE file in the root of the repository for the full text. 
