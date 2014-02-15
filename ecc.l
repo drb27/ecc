@@ -23,7 +23,7 @@ using std::vector;
 %}
 
 DIGIT [0-9]
-ID    [a-z][a-z0-9_]*
+ID    [a-zA-Z_][a-zA-Z0-9_]*
 WS    [ \t]+
 %%
 
