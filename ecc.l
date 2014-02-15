@@ -6,20 +6,19 @@
 #include <vector>
 #include <string>
 #include <map>
+
+using std::string;
+using std::vector;
+
 #include "ast.h"
 #include "ecc.tab.h"
+#include "globals.h"
 
 #undef YY_INPUT
 #define YY_INPUT(buf,result,max_size) ecc::input(buf,result,max_size);
 
 #undef YY_DECL
 #define YY_DECL int _yylex(void)
-
-namespace ecc
-{
-    extern void input(char*,int&,size_t);
-    extern int CurrentLine;
-}
 
 %}
 

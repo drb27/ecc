@@ -4,21 +4,13 @@
 #include <iostream>
 #include <map>
 #include "ast.h"
-
-
-
-int yylex(void);
-void yyerror(const char*);
-
-namespace ecc
-{
-    extern ecc::ast::elist_t MasterList;
-    extern ecc::ast::enumdef * CurrentEnumDef;
-    extern std::vector<ecc::ast::enumattr> CurrentAttributes;
-}
+#include "globals.h"
 
 using namespace ecc;
 using namespace ecc::ast;
+
+int yylex(void);
+void yyerror(const char*);
 
 %}
 
