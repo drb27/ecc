@@ -23,22 +23,23 @@ using std::vector;
 %}
 
 DIGIT [0-9]
-ID    [a-z][a-z0-9_]*
+ID    [a-zA-Z_][a-zA-Z0-9_]*
 WS    [ \t]+
 %%
 
-typedef    { return TYPEDEF; }
-enum       { return  ENUM; }
-flags      { return ATTR_FLAGS; }
-\{         { return CURLY_OPEN; }
-\}         { return CURLY_CLOSE; }
-\;         { return SEMICOLON; }
-\:         { return COLON; }
-,          { return COMMA; }
-=          { return EQUALS; }
-{DIGIT}+   { yylval.int_val = atoi(yytext); return INTEGER; }
-{ID}       { yylval.string_val = new std::string(yytext); return IDENTIFIER; }
+typedef     { return TYPEDEF; }
+enum        { return  ENUM; }
+flags       { return ATTR_FLAGS; }
+\{          { return CURLY_OPEN; }
+\}          { return CURLY_CLOSE; }
+\;          { return SEMICOLON; }
+\:          { return COLON; }
+,           { return COMMA; }
+=           { return EQUALS; }
+{DIGIT}+    { yylval.int_val = atoi(yytext); return INTEGER; }
+{ID}        { yylval.string_val = new std::string(yytext); return IDENTIFIER; }
 {WS}
-\n         { ecc::CurrentLine++; }
+\/\/[^\n]*\n // Chew single line comments
+\n          { ecc::CurrentLine++; }
 %%
 

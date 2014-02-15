@@ -5,7 +5,7 @@ typedef enum
 
 typedef enum : flags
 {
-	noflags,
+	noflags,         // Single-line comments are supported
 	readfile=1,
 	writefile=2,
 	truncatefile=4
