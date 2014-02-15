@@ -174,9 +174,13 @@ filespec:
 
 }
 
+/** 
+ * Called when the parser/scanner encounters an error.
+ * At the moment, just show the error and the line number
+ */
 void yyerror(const char* s)
 {
-    std::cout << "ERROR: syntax error at line " << ecc::CurrentLine <<std::endl;
+    std::cout << "ERROR: " << s << "  at line " << ecc::CurrentLine <<std::endl;
 }
 
 
