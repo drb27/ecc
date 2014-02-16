@@ -1,6 +1,9 @@
 #include <string>
+#include <iostream>
+#include <sstream>
 using namespace std;
 
+#include "sassert.h"
 #include "indent.h"
 
 namespace ecc
@@ -29,6 +32,11 @@ namespace ecc
     indent& indent::operator--(int)
     {
 	indentLevel--;
+
+	assert(indentLevel>=0);
+	if (indentLevel<0)
+	    indentLevel=0;
+
 	update_cache();
 	return *this;
     }

@@ -15,9 +15,14 @@ using std::ofstream;
 using std::istream;
 using std::ifstream;
 using std::vector;
+using std::ostream;
 
 #include "ast.h"
+using namespace ecc::ast;
+
+#include "indent.h"
 #include "generator.h"
+#include "defgen.h"
 #include "ecc.tab.h"
 
 extern int _yylex(void);
