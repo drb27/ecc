@@ -2,6 +2,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <sstream>
 using namespace std;
 
 #include "ast.h"
@@ -44,12 +45,19 @@ namespace ecc
     }
 
 
+    static string dupline_helper(const string* pName, int line)
+    {
+	stringstream ss;
+	ss <<  "Duplicate enum definition " << *pName << " found on line " << line;
+	return ss.str();
+    }
+
    /**
      * Constructs the error from the enum def and the line number. 
      */
     duplicateenumexception::duplicateenumexception(const string* pName, int line)
 	: parseexception(EnDuplicateEnum), 
-	  customErrMsg("Duplicate enum definition " + *pName + " found on line xx")
+	  customErrMsg(dupline_helper(pName,line))
     {
 
     }
