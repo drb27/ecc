@@ -1,7 +1,7 @@
 ecc
 ===
 
-The Enum Compile Command (ecc) is a simple linux utility which takes enum definitions written in pseudo-c++ and 
+This is __ecc v0.2*beta*__. The Enum Compile Command (ecc) is a simple linux utility which takes enum definitions written in pseudo-c++ and 
 spits out c++ files containing the type definition, and a set of constants and functions which allow the runtime conversion of an enum value into a string. These files can then be included/compiled into your program. 
 
 This utility is of little practical use. It was written mainly as a way for me to learn a little bit about scanning
