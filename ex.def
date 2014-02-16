@@ -1,5 +1,10 @@
+/** 
+ * These comments are here to test multi-line
+ * comments. Line numbers should be preserved
+ */
 typedef enum
 {
+    /* Here are the colours! **/
     red, blue, green
 } color_t;
 
