@@ -47,7 +47,7 @@ flags       { return ATTR_FLAGS; }
 {DIGIT}+    { yylval.int_val = atoi(yytext); return INTEGER; }
 {ID}        { yylval.string_val = new std::string(yytext); return IDENTIFIER; }
 {WS}
-\/\/[^\n]*\n // Chew single line comments
+\/\/[^\n]*\n { ecc::CurrentLine++; } // Chew single line comments
 \n          { ecc::CurrentLine++; }
 %%
 
