@@ -17,4 +17,4 @@ typedef enum : flags
 	readfile=1,
 	writefile=2,
 	truncatefile=4
-} color_t;
+} flags_t;
