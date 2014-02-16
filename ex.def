@@ -1,6 +1,8 @@
 /** 
  * These comments are here to test multi-line
- * comments. Line numbers should be preserved
+ * comments. Line numbers should be preserved,
+ * which is why this is long so we can test 
+ * that they are.
  */
 typedef enum
 {
@@ -10,8 +12,9 @@ typedef enum
 
 typedef enum : flags
 {
+	/* And here are the flags! // woooo //  */
 	noflags,         // Single-line comments are supported
 	readfile=1,
 	writefile=2,
 	truncatefile=4
-} flags_t;
+} color_t;
