@@ -28,6 +28,15 @@ namespace ecc
 			       std::ostream& ostr_c = std::cout, 
 			       std::ostream& ostr_h = std::cout)=0;
 	
+    protected:
+
+	/**
+	 * Return a string representation of the current date and time.
+	 *
+	 * @returns A string representing the current date/time in local time
+	 */
+	static string currenttime(void);
+
     };
 
     class defgen : public generator
