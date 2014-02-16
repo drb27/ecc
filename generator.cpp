@@ -3,13 +3,14 @@
 #include <vector>
 #include <sstream>
 #include <string>
-#include "version.h"
-#include "ast.h"
-#include "generator.h"
 
 using std::string;
 using std::stringstream;
 using std::endl;
+
+#include "version.h"
+#include "ast.h"
+#include "generator.h"
 
 namespace ecc
 {

@@ -1,4 +1,3 @@
-
 #ifndef GENERATOR_H_
 #define GENERATOR_H_
 
@@ -16,6 +15,7 @@ namespace ecc
 	virtual ~generator();
 
 	/** Translate the given enum definitions, and write to the given stream. 
+	 *
 	 * @param ostr_c a reference to the output stream to receive the code output
 	 * @param ostr_h a reference to the output stream to receive the header output
 	 * @param items the list of enum definitions to translate

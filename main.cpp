@@ -6,13 +6,6 @@
 #include <vector>
 #include <ostream>
 #include <string>
-#include "ast.h"
-#include "generator.h"
-#include "ecc.tab.h"
-
-extern int _yylex(void);
-
-#define YY_NULL (0)
 
 using std::string;
 using std::cerr;
@@ -22,6 +15,14 @@ using std::ofstream;
 using std::istream;
 using std::ifstream;
 using std::vector;
+
+#include "ast.h"
+#include "generator.h"
+#include "ecc.tab.h"
+
+extern int _yylex(void);
+
+#define YY_NULL (0)
 
 namespace ecc
 {
