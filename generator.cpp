@@ -7,7 +7,6 @@
 
 #include "version.h"
 #include "ast.h"
-#include "generator.h"
 
 using std::string;
 using std::stringstream;
