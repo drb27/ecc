@@ -6,9 +6,9 @@ TAGS
 *.gcno
 a.out
 *~
-ecc.tab.c
+ecc.tab.cpp
 ecc.tab.h
-lex.yy.c
+lex.yy.cpp
 ex.c
 ex.h
 ecc
