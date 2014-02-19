@@ -12,9 +12,10 @@ using namespace ecc::ast;
 #include "globals.h"
 #include "errors.h"
 
-
 namespace ecc
 {
+    class warning;
+
     /**
      * Registers a new enumdef as the current enum def for parsing. 
      * Calls to ac_push_enumdef will act on this object. 
@@ -44,5 +45,19 @@ namespace ecc
 	    delete pName;
 	}
 
+    }
+
+    /** 
+     * Allows the scanner/parser to register a warning. 
+     *
+     * The reference is copied onto a list as part of this call. 
+     * The caller can disband the warning object after the call has
+     * returned. 
+     *
+     * @param wn A reference to a temporary warning object. 
+     */
+    void ac_register_warning(const warning& wn)
+    {
+	/** @todo */
     }
 }
