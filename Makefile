@@ -5,17 +5,18 @@ CXXFLAGS+=--std=c++11 -g
 ecc: $(OBJS) $(DEPS)
 	g++ $(OBJS) $(CXXFLAGS) -o ecc
 
-ecc.tab.c: ecc.y
-	bison -d ecc.y
+-include $(OBJS:.o=.d)
 
-lex.yy.c: ecc.l
-	flex ecc.l
+ecc.tab.cpp: ecc.y
+	bison -d ecc.y -o ecc.tab.cpp
+	mv ecc.tab.hpp ecc.tab.h
 
-lex.yy.o: lex.yy.c 
-	g++ -c lex.yy.c -o lex.yy.o $(CXXFLAGS)
+lex.yy.cpp: ecc.l
+	flex -o lex.yy.cpp ecc.l
 
-ecc.tab.o: ecc.tab.c ecc.tab.h
-	g++ -c ecc.tab.c -o ecc.tab.o $(CXXFLAGS)
+%.o : %.cpp
+	g++ -c $*.cpp $(CXXFLAGS)
+	g++ -c $*.cpp -MM $(XCCFLAGS) > $*.d
 
 clean:
-	rm -f *.o *~ *tab* lex.yy.* a.out ecc
+	rm -f *.o *~ *tab* lex.yy.* a.out ecc *.d
