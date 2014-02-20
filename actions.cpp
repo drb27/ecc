@@ -1,3 +1,4 @@
+#include <iostream>
 #include <string>
 #include <vector>
 #include <map>
@@ -29,10 +30,25 @@ namespace ecc
     /**
      * Pushes the current enumdef (set with ac_create_enumdef) onto the mater
      * list, with the given name. 
+     *
+     * At the point this call is made, the end definition is complete, with all
+     * member/value pairs assigned. The name is assigned as part of this call.
+     *
      * @param pName The name to use. Note that this string will be deleted during the call
      */
     void ac_push_enumdef(string* pName)
     {
+	/** @todo Check duplicate members */
+
+	// Check duplicate values
+	if ( CurrentEnumDef->has_duplicate_values() )
+	{
+	    ac_register_warning( 
+		warning(warning::code::duplicateValue,
+			"<input>",CurrentLine) );
+	}
+
+	// Check duplicate name
 	if (!chk_enum_exists(*pName,MasterList))
 	{
 	    CurrentEnumDef->setname(pName);
@@ -58,5 +74,6 @@ namespace ecc
     void ac_register_warning(const warning& wn)
     {
 	Warnings.push_back(wn);
+	std::cerr << wn << std::endl;
     }
 }

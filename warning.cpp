@@ -18,7 +18,7 @@ namespace ecc
 
     ostream& operator<<(ostream& str,const warning& w)
     {
-	str << "W" << w.code_ << ": " << w.file_ << ":" << w.line_;
+	str << "WRN" << w.code_ << ": " << w.file_ << ":" << w.line_;
 	return str;
     }
 }

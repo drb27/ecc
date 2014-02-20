@@ -1,7 +1,10 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <set>
 #include "ast.h"
+
+using std::set;
 
 namespace ecc
 {
@@ -46,6 +49,26 @@ namespace ast
     {
 	return name;
     }
+  
+    bool enumdef::has_duplicate_values(void) const
+    {
 
+	set<int> processed;
+	for ( auto p : values )
+	{
+	    if (p.second!=AST_DEFAULT_ENUM_VALUE)
+	    {
+		if ( processed.find(p.second)!=processed.end() )
+		{
+		    // Duplicate detected - abort
+		    return true;
+		}
+		else
+		    processed.insert(p.second);
+	    }
+	}
+
+	return false;
+    }
 }
 }
