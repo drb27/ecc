@@ -9,7 +9,9 @@
 
 using std::string;
 using std::vector;
+using std::ostream;
 
+#include "warning.h"
 #include "ast.h"
 #include "ecc.tab.h"
 #include "globals.h"

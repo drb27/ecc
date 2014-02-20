@@ -5,6 +5,7 @@
 #include <map>
 using namespace std;
 
+#include "warning.h"
 #include "ast.h"
 #include "globals.h"
 

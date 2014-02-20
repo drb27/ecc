@@ -1,4 +1,4 @@
-OBJS=actions.o ast.o check.o ecc.tab.o errors.o generator.o defgen.o indent.o lex.yy.o main.o
+OBJS=actions.o ast.o check.o ecc.tab.o errors.o generator.o defgen.o indent.o lex.yy.o main.o warning.o
 DEPS=globals.h version.h
 CXXFLAGS+=--std=c++11 -g
 

@@ -17,6 +17,7 @@ using std::ifstream;
 using std::vector;
 using std::ostream;
 
+#include "warning.h"
 #include "ast.h"
 using namespace ecc::ast;
 
@@ -34,7 +35,8 @@ namespace ecc
     extern const string version = "ecc v0.2beta";       /**< Version string */
     ast::elist_t MasterList;				/**< Parser places output here */
     ast::enumdef* CurrentEnumDef;			/**< Used during parsing */
-    vector<ast::enumattr> CurrentAttributes;
+    vector<ast::enumattr> CurrentAttributes;            /**< Used during parsing */
+    vector<warning> Warnings;                           /**< List of warnings encountered */
     int CurrentLine=1;		                        /**< Current line of input file */
 }
 

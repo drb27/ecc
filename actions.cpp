@@ -7,6 +7,7 @@ using namespace std;
 #include "ast.h"
 using namespace ecc::ast;
 
+#include "warning.h"
 #include "actions.h"
 #include "check.h"
 #include "globals.h"
@@ -14,8 +15,6 @@ using namespace ecc::ast;
 
 namespace ecc
 {
-    class warning;
-
     /**
      * Registers a new enumdef as the current enum def for parsing. 
      * Calls to ac_push_enumdef will act on this object. 
@@ -58,6 +57,6 @@ namespace ecc
      */
     void ac_register_warning(const warning& wn)
     {
-	/** @todo */
+	Warnings.push_back(wn);
     }
 }
