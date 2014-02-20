@@ -68,26 +68,15 @@ enumdef: typedefspec
        | error SEMICOLON;
     
     
-valuelist:   firstvaluepair  
-	| firstvaluepair subsequentlist
+valuelist:   valuepair  
+	| valuepair COMMA valuelist
 	;
     
-subsequentlist:   subsequentvaluepair 
-	| subsequentlist subsequentvaluepair
-	;
-    
-firstvaluepair:   
+valuepair:   
     IDENTIFIER  
     { CurrentEnumDef->insert_value(pair_t(*$1,AST_DEFAULT_ENUM_VALUE) ); delete $1; }
     | IDENTIFIER EQUALS INTEGER 
     { CurrentEnumDef->insert_value(pair_t(*$1,$3) ); delete $1; }
-    ;
-    
-subsequentvaluepair:   
-    COMMA IDENTIFIER 
-    { CurrentEnumDef->insert_value(pair_t(*$2,AST_DEFAULT_ENUM_VALUE) ); delete $2; }
-    | COMMA IDENTIFIER EQUALS INTEGER 
-    { CurrentEnumDef->insert_value(pair_t(*$2,$4) ); delete $2; }
     ;
     
 %%
