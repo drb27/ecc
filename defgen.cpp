@@ -43,11 +43,12 @@ namespace ecc
 
     	string sep = "";
 
-    	for ( auto vp : ed.getvalues() )
+	const ast::values_t& values = ed.getvalues();
+    	for ( auto member : ed.getmembers() )
     	{
-    	    ss << sep << endl << ind() << vp.first;
-    	    if (vp.second!=AST_DEFAULT_ENUM_VALUE)
-    		ss << "=" << vp.second;
+    	    ss << sep << endl << ind() << member;
+    	    if (values.at(member)!=AST_DEFAULT_ENUM_VALUE)
+    		ss << "=" << values.at(member);
     	    sep = ",";
     	}
 
@@ -107,10 +108,10 @@ namespace ecc
 	
     	for ( auto pItem : items )
     	{
-    	    for ( auto vp : pItem->getvalues() )
+    	    for ( auto member : pItem->getmembers() )
     	    {
     		ss << ind() << "static const string " << pItem->get_name() << "_"
-    		   << vp.first << " = " << "\"" << vp.first << "\";" << endl;
+    		   << member << " = " << "\"" << member << "\";" << endl;
     	    }
     	}
 
@@ -133,11 +134,11 @@ namespace ecc
     	ss << ind() << "switch (v) {" << endl;
 	ind++;
 	
-    	for ( auto vp : item.getvalues() )
+    	for ( auto member : item.getmembers() )
     	{
-    	    ss << ind() << "case " << vp.first << ":" << endl;
+    	    ss << ind() << "case " << member << ":" << endl;
 	    ind++;
-    	    ss << ind() << "return " << item.get_name() << "_" << vp.first << ";" << endl; 
+    	    ss << ind() << "return " << item.get_name() << "_" << member << ";" << endl; 
 	    ind--;
     	}
 
@@ -167,10 +168,10 @@ namespace ecc
     	ss << ind() << "stringstream ss;" << endl;
     	ss << ind() << "bool sep=false;" << endl;
 	
-    	for ( auto vp : item.getvalues() )
+    	for ( auto member : item.getmembers() )
     	{
-    	    ss << ind() << "if ( v & " << vp.first << ") { if (sep) ss << \",\"; "
-    	       << " ss << " << item.get_name() << "_" << vp.first 
+    	    ss << ind() << "if ( v & " << member << ") { if (sep) ss << \",\"; "
+    	       << " ss << " << item.get_name() << "_" << member 
     	       << "; sep=true; }" << endl;
     	}
     	ss << ind() << "return ss.str();" << endl;

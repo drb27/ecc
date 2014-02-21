@@ -31,6 +31,7 @@ namespace ecc
 	    virtual ~enumdef();
 
 	    virtual const values_t& getvalues() const;
+	    virtual const vector<string>& getmembers() const;
 	    virtual void insert_value( const pair_t& pPair);
 	    virtual void setname( std::string* nm);
 	    virtual const std::string& get_name(void) const final;
@@ -38,9 +39,10 @@ namespace ecc
 	    inline bool is_flags(void) const { return flags; }
 
 	protected:
-	    std::string name;
-	    values_t values; 
-	    bool flags;
+	    std::string name;        /**< The name of the enum type */
+	    values_t values;         /**< Map of members to values */
+	    vector<string> members;  /**< List of members, in declared order */
+	    bool flags;              /**< True if the enum is a set of flags */
 	};
     
 	/** list type for the list of enumdefs at the top of the tree */
