@@ -78,13 +78,13 @@ valuelist: valuepair
 	| valuepair COMMA valuelist
 	;
 
-longstring_option: SB_OPEN STRING  SB_CLOSE { $$=$2; } | { $$=new std::string(""); } ;
+longstring_option: SB_OPEN STRING SB_CLOSE { $$=$2; } | { $$=new std::string(""); } ;
 
 valuepair:   
     IDENTIFIER longstring_option 
-    { CurrentEnumDef->insert_value(pair_t(*$1,AST_DEFAULT_ENUM_VALUE) ); delete $1; delete $2; }
+    { CurrentEnumDef->insert_value(pair_t(*$1,AST_DEFAULT_ENUM_VALUE), *$2 ); delete $1; delete $2; }
     | IDENTIFIER EQUALS INTEGER longstring_option
-    { CurrentEnumDef->insert_value(pair_t(*$1,$3) ); delete $1; delete $4; }
+    { CurrentEnumDef->insert_value(pair_t(*$1,$3), *$4 ); delete $1; delete $4; }
     ;
    
 %%

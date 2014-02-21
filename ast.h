@@ -19,6 +19,9 @@ namespace ecc
 	/** map of string to int for holding enum values */
 	typedef std::map<std::string,int> values_t;
 
+	/** map of string to string for holding longstrings */
+	typedef std::map<std::string,std::string> longstring_map_t;
+	
 	/** Quick access to the pair type */
 	typedef values_t::value_type pair_t;
 
@@ -31,7 +34,8 @@ namespace ecc
 	    virtual ~enumdef();
 
 	    virtual const values_t& getvalues() const;
-	    virtual void insert_value( const pair_t& pPair);
+	    virtual void insert_value( const pair_t& pPair, 
+				       const std::string& longstr = std::string("") );
 	    virtual void setname( std::string* nm);
 	    virtual const std::string& get_name(void) const final;
 
@@ -40,6 +44,7 @@ namespace ecc
 	protected:
 	    std::string name;
 	    values_t values; 
+	    longstring_map_t longstrings;
 	    bool flags;
 	};
     

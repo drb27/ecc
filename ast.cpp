@@ -26,9 +26,10 @@ namespace ast
 
     }
 
-    void enumdef::insert_value(const pair_t& pair)
+    void enumdef::insert_value(const pair_t& pair, const std::string& longstr)
     {
 	values.insert(pair);
+        longstrings[pair.first] =  longstr;
     }
 
     void enumdef::setname(std::string* pName)
