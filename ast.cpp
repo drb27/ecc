@@ -1,6 +1,10 @@
 #include <vector>
 #include <string>
 #include <map>
+
+using std::vector;
+using std::string;
+
 #include "ast.h"
 
 namespace ecc
@@ -28,6 +32,7 @@ namespace ast
 
     void enumdef::insert_value(const pair_t& pair)
     {
+	members.push_back(pair.first);
 	values.insert(pair);
     }
 
@@ -40,6 +45,11 @@ namespace ast
     const values_t& enumdef::getvalues() const
     {
 	return values;
+    }
+
+    const vector<string>& enumdef::getmembers() const
+    {
+	return members;
     }
 
     const std::string& enumdef::get_name(void) const

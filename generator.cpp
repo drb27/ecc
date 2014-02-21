@@ -3,13 +3,16 @@
 #include <vector>
 #include <sstream>
 #include <string>
-#include "version.h"
-#include "ast.h"
-#include "generator.h"
 
 using std::string;
 using std::stringstream;
 using std::endl;
+using std::vector;
+
+#include "version.h"
+#include "ast.h"
+#include "generator.h"
+
 
 namespace ecc
 {
@@ -107,11 +110,12 @@ namespace ecc
 
 	string sep = "";
 
-	for ( auto vp : ed.getvalues() )
+	const ast::values_t& values = ed.getvalues();
+	for ( const string member : ed.getmembers() )
 	{
-	    ss << sep << endl << "    " << vp.first;
-	    if (vp.second!=AST_DEFAULT_ENUM_VALUE)
-		ss << "=" << vp.second;
+	    ss << sep << endl << "    " << member;
+	    if (values.at(member)!=AST_DEFAULT_ENUM_VALUE)
+		ss << "=" << values.at(member);
 	    sep = ",";
 	}
 
@@ -129,10 +133,10 @@ namespace ecc
 	
 	for ( auto pItem : items )
 	{
-	    for ( auto vp : pItem->getvalues() )
+	    for ( auto member : pItem->getmembers() )
 	    {
 		ss << "    static const string " << pItem->get_name() << "_"
-		   << vp.first << " = " << "\"" << vp.first << "\";" << endl;
+		   << member << " = " << "\"" << member << "\";" << endl;
 	    }
 	}
 
@@ -150,10 +154,10 @@ namespace ecc
 	
 	ss << "    switch (v) {" << endl;
 	
-	for ( auto vp : ed.getvalues() )
+	for ( auto member : ed.getmembers() )
 	{
-	    ss << "    case " << vp.first << ":" << endl;
-	    ss << "        return " << ed.get_name() << "_" << vp.first << ";" << endl; 
+	    ss << "    case " << member << ":" << endl;
+	    ss << "        return " << ed.get_name() << "_" << member << ";" << endl; 
 	}
 
 	ss << "    default: " << endl;
