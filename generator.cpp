@@ -5,9 +5,6 @@
 #include <string>
 #include <ctime>
 
-#include "version.h"
-#include "ast.h"
-
 using std::string;
 using std::stringstream;
 using std::endl;

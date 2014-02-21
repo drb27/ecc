@@ -1,6 +1,12 @@
+#include <iostream>
 #include <vector>
 #include <string>
 #include <map>
+#include <sstream>
+
+using std::string;
+
+#include "sassert.h"
 #include "ast.h"
 
 namespace ecc
@@ -41,6 +47,12 @@ namespace ast
     const values_t& enumdef::getvalues() const
     {
 	return values;
+    }
+
+    const string& enumdef::getlstring(const string& member) const
+    {
+	assert(longstrings.find(member)!=longstrings.end());
+	return longstrings.at(member);
     }
 
     const std::string& enumdef::get_name(void) const
