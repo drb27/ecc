@@ -1,8 +1,0 @@
-1. Longstring generation in defgen (only non-flags are supported)
-   	      - String generation
-	      - Function prototype generation
-	      - Function generation
-
-2. Add error for flag attribute and longstrings combined (not supported)
-3. Where longstring is not specified, default to using the short string. 
-   Implement this in generated code rather than suplicating strings as symbols

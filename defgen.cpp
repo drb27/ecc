@@ -74,8 +74,12 @@ namespace ecc
 	    ss << ext << "string getstr_" << name << "("
 	       << name << " v)" << trm << endl;
 	else
+	{
+	    const string ls = (fileType==outfile_t::headerFile)?
+		"=false":"";
 	    ss << ext << "const string& getstr_" << name << "("
-	       << name << " v)" << trm << endl;
+	       << name << " v, bool longStr" << ls << ")" << trm << endl;
+	}
 	
     	return ss.str();
     }
@@ -108,11 +112,23 @@ namespace ecc
 	
     	for ( auto pItem : items )
     	{
+	    // Loop through the regular strings
     	    for ( auto member : pItem->getmembers() )
     	    {
     		ss << ind() << "static const string " << pItem->get_name() << "_"
     		   << member << " = " << "\"" << member << "\";" << endl;
     	    }
+
+	    // Loop through the longstrings
+	    for ( auto member : pItem->getmembers() )
+	    {
+		const string& ls = pItem->getlstring(member);
+		if ( !ls.empty() )
+		{
+		    ss << ind() << "static const string " << pItem->get_name() << "_l_"
+		       << member << " = " << "\"" << ls << "\";" << endl;
+		}
+	    }
     	}
 
 	ind--;
@@ -138,7 +154,18 @@ namespace ecc
     	{
     	    ss << ind() << "case " << member << ":" << endl;
 	    ind++;
-    	    ss << ind() << "return " << item.get_name() << "_" << member << ";" << endl; 
+
+	    const string& ls = item.getlstring(member);
+	    if (!ls.empty())
+	    {
+		ss << ind() << "return (longStr)?"
+		   << item.get_name() << "_l_" << member
+		   << ":" << item.get_name() << "_" << member << ";" << endl;
+	    }
+	    else
+	    {
+		ss << ind() << "return " << item.get_name() << "_" << member << ";" << endl; 
+	    }
 	    ind--;
     	}
 
