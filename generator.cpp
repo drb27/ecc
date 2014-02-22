@@ -10,6 +10,7 @@ using std::stringstream;
 using std::endl;
 using std::ostream;
 using std::cout;
+using std::vector;
 
 #include "version.h"
 #include "ast.h"

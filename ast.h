@@ -1,7 +1,5 @@
-
 #ifndef AST_H_
 #define AST_H_
-
 
 #define AST_DEFAULT_ENUM_VALUE (-1)
 
@@ -13,7 +11,7 @@ namespace ecc
         /** Enumeration of different attributes that can be set on the enum definition */ 
         typedef enum class 
 	{
-	  flags
+	    flags
 	} enumattr;
 
 	/** map of string to int for holding enum values */
@@ -37,16 +35,18 @@ namespace ecc
 	    virtual const string& getlstring(const string& member) const;
 	    virtual void insert_value( const pair_t& pPair, 
 				       const std::string& longstr = std::string("") );
+	    virtual const vector<string>& getmembers() const;
 	    virtual void setname( std::string* nm);
 	    virtual const std::string& get_name(void) const final;
 
 	    inline bool is_flags(void) const { return flags; }
 
 	protected:
-	    std::string name;
-	    values_t values; 
-	    longstring_map_t longstrings;
-	    bool flags;
+	    std::string name;        /**< The name of the enum type */
+	    values_t values;         /**< Map of members to values */
+	    vector<string> members;  /**< List of members, in declared order */
+	    longstring_map_t longstrings;	    
+	    bool flags;              /**< True if the enum is a set of flags */
 	};
     
 	/** list type for the list of enumdefs at the top of the tree */
