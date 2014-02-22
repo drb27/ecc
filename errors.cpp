@@ -45,10 +45,10 @@ namespace ecc
     }
 
 
-    static string dupline_helper(const string* pName, int line)
+    static string err_helper(const string& prefix, const string* pName, int line)
     {
 	stringstream ss;
-	ss <<  "Duplicate enum definition " << *pName << " found on line " << line;
+	ss << *pName << ": " << prefix << " at line " << line;
 	return ss.str();
     }
 
@@ -57,7 +57,7 @@ namespace ecc
      */
     duplicateenumexception::duplicateenumexception(const string* pName, int line)
 	: parseexception(EnDuplicateEnum), 
-	  customErrMsg(dupline_helper(pName,line))
+	  customErrMsg(err_helper("Duplicate enum type name",pName,line))
     {
 
     }
@@ -69,6 +69,22 @@ namespace ecc
     {
 	return customErrMsg.c_str();
     }
+
+    longstringonflagexception::longstringonflagexception(const string* pName, int line)
+	: parseexception(EnLongstringOnFlags),
+	  customErrMsg(err_helper("Combination of longstrings and flag attribute",pName,line))
+    {
+
+    }
+
+    /**
+     * Returns a generic string. Subclasses should provide their own implementation 
+     */
+    const char* longstringonflagexception::what(void) const noexcept
+    {
+	return customErrMsg.c_str();
+    }
+
 }
 
 

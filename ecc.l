@@ -23,11 +23,13 @@ using std::vector;
 %}
 
 %x MLC
+%x STR
 
 DIGIT [0-9]
 ID    [a-zA-Z_][a-zA-Z0-9_]*
 WS    [ \t]+
 %%
+
 
 "/*"              { BEGIN(MLC); }
 <MLC>[^*\n]*      // Eat anything that is not a star or newline
@@ -44,6 +46,11 @@ flags       { return ATTR_FLAGS; }
 \:          { return COLON; }
 ,           { return COMMA; }
 =           { return EQUALS; }
+\[          { return SB_OPEN; }
+\]          { return SB_CLOSE; }
+\"          { BEGIN(STR);  }
+<STR>\"     { BEGIN(INITIAL); return STRING; }
+<STR>[^\"]* { yylval.string_val = new std::string(yytext); }
 {DIGIT}+    { yylval.int_val = atoi(yytext); return INTEGER; }
 {ID}        { yylval.string_val = new std::string(yytext); return IDENTIFIER; }
 {WS}

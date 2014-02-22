@@ -5,7 +5,9 @@ namespace ecc
 {
     typedef enum
     {
-	EnDuplicateEnum = 1,
+	EnNoError=0,
+	EnDuplicateEnum,
+	EnLongstringOnFlags
     } parse_error_t;
 
     /**
@@ -46,6 +48,17 @@ namespace ecc
     protected:
 	const std::string customErrMsg;
 
+    };
+
+    class longstringonflagexception : public parseexception
+    {
+    public:
+	longstringonflagexception(const string* pName,int line);
+	virtual const char* what(void) const noexcept;
+    
+    protected:
+	const std::string customErrMsg;
+	
     };
 }
 

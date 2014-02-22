@@ -36,9 +36,15 @@ void yyerror(const char*);
 %token TYPEDEF
 %token COLON
 %token ATTR_FLAGS
-
+%token SB_OPEN
+%token SB_CLOSE
+%token DBL_QUOTE
+%token STRING
 %type <int_val> INTEGER
 %type <string_val> IDENTIFIER
+%type <string_val> STRING
+%type <string_val> longstring_option
+
 %start input
 
 %%
@@ -68,27 +74,15 @@ enumdef: typedefspec
        | error SEMICOLON;
     
     
-valuelist:   firstvaluepair  
-	| firstvaluepair subsequentlist
+valuelist: valuepair  
+	| valuepair COMMA valuelist
 	;
-    
-subsequentlist:   subsequentvaluepair 
-	| subsequentlist subsequentvaluepair
-	;
-    
-firstvaluepair:   
-    IDENTIFIER  
-    { CurrentEnumDef->insert_value(pair_t(*$1,AST_DEFAULT_ENUM_VALUE) ); delete $1; }
-    | IDENTIFIER EQUALS INTEGER 
-    { CurrentEnumDef->insert_value(pair_t(*$1,$3) ); delete $1; }
-    ;
-    
-subsequentvaluepair:   
-    COMMA IDENTIFIER 
-    { CurrentEnumDef->insert_value(pair_t(*$2,AST_DEFAULT_ENUM_VALUE) ); delete $2; }
-    | COMMA IDENTIFIER EQUALS INTEGER 
-    { CurrentEnumDef->insert_value(pair_t(*$2,$4) ); delete $2; }
-    ;
-    
+
+longstring_option: SB_OPEN STRING SB_CLOSE { $$=$2; } | { $$=new std::string(""); } ;
+
+valuepair:   
+    IDENTIFIER longstring_option { ac_insert_member($1,AST_DEFAULT_ENUM_VALUE,$2); }
+  | IDENTIFIER EQUALS INTEGER longstring_option { ac_insert_member($1,$3,$4); };
+   
 %%
 	  
