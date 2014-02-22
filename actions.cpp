@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <memory>
 
 using namespace std;
 
@@ -44,5 +45,31 @@ namespace ecc
 	    delete pName;
 	}
 
+    }
+
+    /**
+     * Inserts a new member into the current enum def.
+     * This function acts on the enumdef most recently passed to ac_register_enumdef. 
+     * It deletes its string arguments during the call. 
+     *
+     * @param pMember the name of the member, i.e. its token string representation
+     * @param val the integer value of the member (pass AST_DEFAULT_ENUM_VALUE for none)
+     * @param longstr longer text associated with the member (can be empty string)
+     */
+    void ac_insert_member(string* pMember, int val, string* pLongStr)
+    {
+	// Ensure strings get deleted when this block goes out of scope
+	unique_ptr<string> mpMember(pMember), mpLongStr(pLongStr);
+
+	// If this has a longstring, and the enumdef as the flags attribute, raise error
+	if ( CurrentEnumDef->is_flags() &&  pLongStr->length() )
+	{
+	    throw longstringonflagexception(pMember,CurrentLine);
+	}
+	else
+	{
+	    // If we got here, we're good. Do the insert.
+	    CurrentEnumDef->insert_value(pair_t(*pMember,val),*pLongStr);
+	}
     }
 }
