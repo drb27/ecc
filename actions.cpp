@@ -2,9 +2,14 @@
 #include <vector>
 #include <map>
 #include <memory>
+#include <exception>
+#include <iostream>
+#include <sstream>
 
 using namespace std;
 
+#include "sassert.h"
+#include "ctree.h"
 #include "ast.h"
 using namespace ecc::ast;
 

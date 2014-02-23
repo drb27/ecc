@@ -6,6 +6,7 @@
 #include <vector>
 #include <ostream>
 #include <string>
+#include <exception>
 
 using std::string;
 using std::cerr;
@@ -16,7 +17,10 @@ using std::istream;
 using std::ifstream;
 using std::vector;
 using std::ostream;
+using std::exception;
 
+#include "sassert.h"
+#include "ctree.h"
 #include "ast.h"
 using namespace ecc::ast;
 
@@ -31,11 +35,12 @@ extern int _yylex(void);
 
 namespace ecc
 {
-    extern const string version = "ecc v0.2beta";       /**< Version string */
-    ast::elist_t MasterList;				/**< Parser places output here */
-    ast::enumdef* CurrentEnumDef;			/**< Used during parsing */
-    vector<ast::enumattr> CurrentAttributes;
-    int CurrentLine=1;		                        /**< Current line of input file */
+    extern const string version = "ecc v0.2beta";    /**< Version string */
+    ast::elist_t MasterList;			     /**< Parser places output here */
+    ast::enumdef* CurrentEnumDef;		     /**< Used during parsing */
+    vector<ast::enumattr> CurrentAttributes;         /**< Used during parsing */
+    int CurrentLine=1;		                     /**< Current line of input file */
+    ctree<ast::enumdef> NsTree;                      /**< Data structure for namespaces */
 }
 
 namespace

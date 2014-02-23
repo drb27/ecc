@@ -1,5 +1,6 @@
 *.d
 doc/
+cov/
 TAGS
 *.o
 *.gcda
@@ -12,3 +13,4 @@ lex.yy.cpp
 ex.c
 ex.h
 ecc
+/test

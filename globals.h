@@ -8,7 +8,9 @@ namespace ecc
     extern ast::enumdef* CurrentEnumDef;
     extern vector<ast::enumattr> CurrentAttributes;
     extern int CurrentLine;
+    extern ctree<ast::enumdef> NsTree;
     void input(char*, int&, size_t);
+
 }
 
 #endif

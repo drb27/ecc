@@ -2,9 +2,12 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <sstream>
 #include <map>
 using namespace std;
 
+#include "sassert.h"
+#include "ctree.h"
 #include "ast.h"
 #include "globals.h"
 

@@ -6,10 +6,14 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <exception>
 
 using std::string;
 using std::vector;
+using std::exception;
 
+#include "sassert.h"
+#include "ctree.h"
 #include "ast.h"
 #include "ecc.tab.h"
 #include "globals.h"
