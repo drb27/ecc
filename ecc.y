@@ -31,6 +31,7 @@ void yyerror(const char*);
 %token ENUM
 %token EQUALS
 %token IDENTIFIER
+%token IDENTIFIER_SCOPED
 %token INTEGER
 %token SEMICOLON
 %token TYPEDEF
@@ -40,8 +41,10 @@ void yyerror(const char*);
 %token SB_CLOSE
 %token DBL_QUOTE
 %token STRING
+%token NAMESPACE
 %type <int_val> INTEGER
 %type <string_val> IDENTIFIER
+%type <string_val> IDENTIFIER_SCOPED
 %type <string_val> STRING
 %type <string_val> longstring_option
 
@@ -50,7 +53,7 @@ void yyerror(const char*);
 %%
 
 input:   /* empty */ 
-     | enumlist
+     | stmts
      ;
 
 attr: ATTR_FLAGS;
@@ -59,8 +62,15 @@ attrlist : attr { CurrentAttributes.push_back(ecc::ast::enumattr::flags); }
     | attrlist COMMA attr { CurrentAttributes.push_back(ecc::ast::enumattr::flags); }
     ;
 
-enumlist: enumdef
-     | enumlist enumdef;
+stmt: enumdef | directive;
+
+nsspec: NAMESPACE IDENTIFIER_SCOPED SEMICOLON { /*ac_set_namespace($2);*/ }
+      | NAMESPACE IDENTIFIER SEMICOLON { /*ac_set_namespace($2);*/ }
+
+directive: nsspec;
+
+stmts: stmt
+     | stmts stmt;
 
 typedefspec: TYPEDEF ENUM { ac_register_enumdef( new enumdef() ); }  
      | TYPEDEF ENUM COLON { CurrentAttributes.clear(); } 
