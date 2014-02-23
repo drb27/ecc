@@ -5,8 +5,8 @@ using namespace std;
 
 namespace ecc
 {
-    warning::warning(code cde,const string& file, int line)
-	:code_(cde), file_(file), line_(line)
+    warning::warning(code cde, int line)
+	:code_(cde), line_(line)
     {
 
     }
@@ -18,7 +18,7 @@ namespace ecc
 
     ostream& operator<<(ostream& str,const warning& w)
     {
-	str << "WRN" << w.code_ << ": " << w.file_ << ":" << w.line_;
+	str << "WRN" << w.code_ << ": at line" << w.line_;
 	return str;
     }
 }

@@ -13,12 +13,11 @@ namespace ecc
 	    duplicateValue
 	} code;
 
-	warning(code cde,const string& file, int line);
+	warning(code cde,int line);
 	virtual ~warning();
 
     protected:
 	const code code_;
-	const string file_;
 	const int line_;
 
 	friend ostream& operator<<(ostream&, const warning&);
