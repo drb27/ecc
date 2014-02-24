@@ -38,7 +38,7 @@ namespace ecc
     string defgen::tl_typedef(const enumdef& ed)
     {
     	stringstream ss;
-    	ss << endl << "typedef enum {";
+    	ss << endl << ind() << "typedef enum {";
 	ind++;
 
     	string sep = "";
@@ -52,8 +52,8 @@ namespace ecc
     	    sep = ",";
     	}
 
-    	ss << endl << "} " << ed.get_name() << ";" << endl;
 	ind--;
+    	ss << endl << ind() << "} " << ed.get_name() << ";" << endl;
     	return ss.str();
     }
 
@@ -71,13 +71,13 @@ namespace ecc
 	name = item.get_name();
 
 	if (item.is_flags())
-	    ss << ext << "string getstr_" << name << "("
+	    ss << ind() << ext << "string getstr_" << name << "("
 	       << name << " v)" << trm << endl;
 	else
 	{
 	    const string ls = (fileType==outfile_t::headerFile)?
 		"=false":"";
-	    ss << ext << "const string& getstr_" << name << "("
+	    ss << ind() << ext << "const string& getstr_" << name << "("
 	       << name << " v, bool longStr" << ls << ")" << trm << endl;
 	}
 	
