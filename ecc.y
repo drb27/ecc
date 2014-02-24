@@ -67,8 +67,8 @@ attrlist : attr { CurrentAttributes.push_back(ecc::ast::enumattr::flags); }
 
 stmt: enumdef | directive;
 
-nsspec: NAMESPACE IDENTIFIER_SCOPED SEMICOLON { /*ac_set_namespace($2);*/ }
-      | NAMESPACE IDENTIFIER SEMICOLON { /*ac_set_namespace($2);*/ }
+nsspec: NAMESPACE IDENTIFIER_SCOPED SEMICOLON { ac_set_namespace($2); }
+      | NAMESPACE IDENTIFIER SEMICOLON { ac_set_namespace($2); }
 
 directive: nsspec;
 
