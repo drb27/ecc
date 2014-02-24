@@ -2,10 +2,11 @@
  * Canonical Tree
  */
 
-#include <cstring>
-
 #ifndef CTREE_H_
 #define CTREE_H_
+
+#include <cstring>
+#include <functional>
 
 #define SEPARATOR "::"
 
@@ -130,6 +131,18 @@ public:
 
 	// Carry on with the rest of the string
 	nextnode.create_path(ref);
+    }
+
+    void dfs(std::function<void(const string&,const vector<T*>)> cbMember) const
+    {
+	// Start with this node ...
+	cbMember(name_,members_);
+
+	// Now go down into the subnodes ...
+	for ( auto subnode : subnodes_ )
+	{
+	    subnode.dfs(cbMember);
+	}
     }
 
 protected:
