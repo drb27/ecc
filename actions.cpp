@@ -2,9 +2,14 @@
 #include <vector>
 #include <map>
 #include <memory>
+#include <exception>
+#include <iostream>
+#include <sstream>
 
 using namespace std;
 
+#include "sassert.h"
+#include "ctree.h"
 #include "ast.h"
 using namespace ecc::ast;
 
@@ -34,6 +39,7 @@ namespace ecc
      */
     void ac_push_enumdef(string* pName)
     {
+	// Push onto the master list
 	if (!chk_enum_exists(*pName,MasterList))
 	{
 	    CurrentEnumDef->setname(pName);
@@ -44,6 +50,9 @@ namespace ecc
 	    throw duplicateenumexception(pName,CurrentLine);
 	    delete pName;
 	}
+
+	// Add to the namespace tree
+	CurrentNamespace->insert_member(CurrentEnumDef);
 
     }
 
@@ -71,5 +80,20 @@ namespace ecc
 	    // If we got here, we're good. Do the insert.
 	    CurrentEnumDef->insert_value(pair_t(*pMember,val),*pLongStr);
 	}
+    }
+
+    /**
+     * Sets the namespace that following typedefs will be generated within.
+     *
+     * @param valid c++ namespace name. May be nested, e.g. name::subname::package
+     */
+    void ac_set_namespace(string* pNamespace)
+    {
+	// Ensure the namespace exists in the tree
+	unique_ptr<string> mpNamespace(pNamespace);
+	NsTree.create_path(*mpNamespace);
+
+	// Point to it
+	CurrentNamespace = &NsTree.lookup(*mpNamespace);
     }
 }

@@ -4,7 +4,11 @@
 #include <sstream>
 #include <string>
 #include <ctime>
+#include <exception>
+#include <functional>
 
+using std::function;
+using std::exception;
 using std::string;
 using std::stringstream;
 using std::endl;
@@ -12,12 +16,15 @@ using std::ostream;
 using std::cout;
 using std::vector;
 
+#include "sassert.h"
+#include "ctree.h"
 #include "version.h"
 #include "ast.h"
 using namespace ecc::ast;
 
 #include "indent.h"
 #include "generator.h"
+#include "globals.h"
 
 namespace ecc
 {
@@ -58,19 +65,7 @@ namespace ecc
 	    ostr_h << endl << "#define " << grd << endl;
 	}
 
-	// Output type definitions for each defined enum
-	for (auto ed : items )
-	{
-	    ostr_h << tl_typedef(*ed);
-	}
-
-	ostr_h << endl;
-
-	// Output function prototypes for each type
-	for (auto ed: items)
-	{
-	    ostr_h << tl_prototype(*ed,outfile_t::headerFile);
-	}
+	ostr_h << namespace_structures(NsTree);
 
 	// Terminate include guard
 	ostr_h << endl << "#endif" << endl;

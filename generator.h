@@ -101,6 +101,28 @@ namespace ecc
 	 */
 	static string guard(const string& fPath, const string& prefix="_HG_");
 
+	/**
+	 * Generates the typedefs and function prototypes. 
+	 *
+	 * Traverses the namespace tree, using a depth-first algorithm, 
+	 * spitting out typedefs and function prototypes as it goes. Used by
+	 * the header generator. 
+	 *
+	 * @param root the root of the namespace tree
+	 */
+	virtual string namespace_structures(ctree<enumdef>& root)=0;
+
+	/**
+	 * Generates the functions, grouped by namespace
+	 *
+	 * Traverses the namespace tree, using a depth-first algorithm, using
+	 * tl_* functions to generate code for the string conversion functions
+	 * as it goes. 
+	 *
+	 * @param root the root of the namespace tree
+	 */
+	virtual string namespace_functions(ctree<enumdef>& root)=0;
+
 	/** Indent object for keeping track of indent levels */
 	indent ind;
     };

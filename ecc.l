@@ -6,10 +6,14 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <exception>
 
 using std::string;
 using std::vector;
+using std::exception;
 
+#include "sassert.h"
+#include "ctree.h"
 #include "ast.h"
 #include "ecc.tab.h"
 #include "globals.h"
@@ -27,6 +31,7 @@ using std::vector;
 
 DIGIT [0-9]
 ID    [a-zA-Z_][a-zA-Z0-9_]*
+IDS   [a-zA-Z_][a-zA-Z0-9_:]*
 WS    [ \t]+
 %%
 
@@ -40,6 +45,7 @@ WS    [ \t]+
 typedef     { return TYPEDEF; }
 enum        { return  ENUM; }
 flags       { return ATTR_FLAGS; }
+namespace   { return NAMESPACE; }
 \{          { return CURLY_OPEN; }
 \}          { return CURLY_CLOSE; }
 \;          { return SEMICOLON; }
@@ -53,6 +59,7 @@ flags       { return ATTR_FLAGS; }
 <STR>[^\"]* { yylval.string_val = new std::string(yytext); }
 {DIGIT}+    { yylval.int_val = atoi(yytext); return INTEGER; }
 {ID}        { yylval.string_val = new std::string(yytext); return IDENTIFIER; }
+{IDS}       { yylval.string_val = new std::string(yytext); return IDENTIFIER_SCOPED; }
 {WS}
 \/\/[^\n]*\n { ecc::CurrentLine++; } // Chew single line comments
 \n          { ecc::CurrentLine++; }
