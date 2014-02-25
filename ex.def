@@ -4,7 +4,7 @@
  * which is why this is long so we can test 
  * that they are.
  */
-namespace ednums;
+namespace ui;
 typedef enum
 {
     /* Here are the colours! **/
@@ -27,3 +27,9 @@ typedef enum : flags
 	writefile=2,	// ["This is illegal"],
 	truncatefile=4
 } flags_t;
+namespace enums;
+typedef enum
+{
+	false=0,
+	true
+} bool_t;

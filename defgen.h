@@ -16,6 +16,8 @@ namespace ecc
 	virtual string tl_constants(const elist_t& items);
 	virtual string tl_function_regular(const enumdef& item);
 	virtual string tl_function_flags_attr(const enumdef& item);
+	virtual string namespace_structures(ctree<enumdef>& root);
+	virtual string namespace_functions(ctree<enumdef>& root);
     };
 }
 

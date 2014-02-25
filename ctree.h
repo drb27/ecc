@@ -133,18 +133,27 @@ public:
 	nextnode.create_path(ref);
     }
 
-    void dfs(std::function<void(const string&,const vector<T*>)> cbMember) const
+    void dfs(std::function<void(const ctree<T>&)> cbStart,
+	     std::function<void(const ctree<T>&)> cbEnd) const
     {
 	// Start with this node ...
-	cbMember(name_,members_);
+	cbStart(*this);
 
 	// Now go down into the subnodes ...
 	for ( auto subnode : subnodes_ )
 	{
-	    subnode.dfs(cbMember);
+	    subnode.dfs(cbStart,cbEnd);
 	}
+
+	// This node is done
+	cbEnd(*this);
     }
 
+    bool is_root(void) const
+    {
+	return (NULL==parent_);
+    }
+    
 protected:
 
     const ctree<T>& find_local_node_alg(const string& nm) const
@@ -198,7 +207,7 @@ protected:
 	else
 	    return nextnode;
     }
-    
+
 protected:
     const string name_;
     vector<T*> members_;

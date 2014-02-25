@@ -3,8 +3,11 @@
 #include <sstream>
 #include <map>
 #include <vector>
+#include <exception>
 using namespace std;
 
+#include "sassert.h"
+#include "ctree.h"
 #include "version.h"
 #include "ast.h"
 using namespace ecc::ast;
@@ -12,6 +15,7 @@ using namespace ecc::ast;
 #include "indent.h"
 #include "generator.h"
 #include "defgen.h"
+#include "globals.h"
 
 namespace ecc
 {
@@ -91,14 +95,8 @@ namespace ecc
 	// Constants first
 	ss << tl_constants(items);
 
-	// Then access functions
-	for ( auto i : items )
-	{
-	    if (i->is_flags())
-		ss << tl_function_flags_attr(*i);
-	    else
-		ss << tl_function_regular(*i);
-	}
+	// Then access functions, by nested namespace
+	ss << namespace_functions(NsTree);
 
 	return ss.str();
     }
@@ -141,7 +139,7 @@ namespace ecc
 	stringstream ss;
 
 	// Generate code prototype
-	ss << endl << ind() << tl_prototype(item,outfile_t::codeFile);
+	ss << endl << tl_prototype(item,outfile_t::codeFile);
 
 	// Body
 	ss << ind() << "{" << endl;
@@ -188,7 +186,7 @@ namespace ecc
 	stringstream ss;
 
 	// Generate code prototype
-	ss << endl << ind() << tl_prototype(item,outfile_t::codeFile);
+	ss << endl << tl_prototype(item,outfile_t::codeFile);
 	ss << ind() << "{" << endl;
 	ind++;
 	
@@ -204,8 +202,87 @@ namespace ecc
     	ss << ind() << "return ss.str();" << endl;
     	
 	ind--;
-	ss << "}" << endl;
+	ss << ind() << "}" << endl;
 
+	return ss.str();
+    }
+    
+    string defgen::namespace_structures(ctree<enumdef>& root)
+    {
+	indent& myind = ind;
+	stringstream ss;
+
+	auto ns_start = 
+	    [&ss,&myind,this](const ctree<enumdef>& node) -> void 
+	    {
+		if (!node.is_root())
+		{
+		    ss << endl << myind() << "namespace " << node.name() << " {" << endl;
+		    myind++;
+		}
+
+		for ( auto ped : node.members() )
+		{
+		    ss << tl_typedef(*ped);
+		}
+
+		ss << endl;
+
+		for ( auto ped : node.members() )
+		{
+		    ss << tl_prototype(*ped,outfile_t::headerFile);
+		}
+	    };
+
+	auto ns_end = 
+	    [&ss,&myind](const ctree<enumdef>& node) -> void
+	    {
+		if (!node.is_root())
+		{
+		    myind--;
+		    ss << myind() << "}" << endl;
+		}
+	    };
+
+	root.dfs( ns_start, ns_end );
+	return ss.str();
+    }
+
+    string defgen::namespace_functions(ctree<enumdef>& root)
+    {
+	indent& myind = ind;
+	stringstream ss;
+
+	auto ns_start = 
+	    [&ss,&myind,this](const ctree<enumdef>& node) -> void 
+	    {
+		if (!node.is_root())
+		{
+		    ss << endl << myind() << "namespace " << node.name() << " {" << endl;
+		    myind++;
+		}
+
+		// Access functions
+		for ( auto i : node.members() )
+		{
+		    if (i->is_flags())
+			ss << tl_function_flags_attr(*i);
+		    else
+			ss << tl_function_regular(*i);
+		}
+	    };
+
+	auto ns_end = 
+	    [&ss,&myind](const ctree<enumdef>& node) -> void
+	    {
+		if (!node.is_root())
+		{
+		    myind--;
+		    ss << myind() << "}" << endl;
+		}
+	    };
+
+	root.dfs( ns_start, ns_end );
 	return ss.str();
     }
 
