@@ -162,7 +162,7 @@ static es parse_options(int argc, char** argv)
     
     // If no output file (code) was set, calculate name from input file
     if ( outputFileCode.length() < 1 )
-	outputFileCode = default_outfile(inputFile,"c");
+	outputFileCode = default_outfile(inputFile,"cpp");
     
     // If no output file (header) was set, calculate name from input file
     if ( outputFileHeader.length() < 1 )
