@@ -12,11 +12,15 @@ namespace ecc
 	warning(warningcode cde,int line);
 	virtual ~warning();
 
+	void push_token(const string& tk, const string& val);
+	void push_token(const string& tk, int val);
+
     protected:
 	const warningcode code_;
 	const int line_;
+	map<string,string> dict_;
 
-	const string prep_string( const map<string,string>& dict ) const;
+	const string prep_string(void) const;
 
 	friend ostream& operator<<(ostream&, const warning&);
     };
