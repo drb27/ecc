@@ -37,7 +37,7 @@ extern int _yylex(void);
 
 namespace ecc
 {
-    extern const string version = "ecc v0.2beta";       /**< Version string */
+    extern const string version = "ecc v0.3beta";       /**< Version string */
     ast::elist_t MasterList;				/**< Parser places output here */
     ast::enumdef* CurrentEnumDef;			/**< Used during parsing */
     vector<ast::enumattr> CurrentAttributes;
