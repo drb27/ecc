@@ -10,6 +10,7 @@
 using std::string;
 using std::vector;
 using std::ostream;
+using std::map;
 
 #include "warning.h"
 #include "ast.h"

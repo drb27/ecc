@@ -16,6 +16,7 @@ using std::istream;
 using std::ifstream;
 using std::vector;
 using std::ostream;
+using std::map;
 
 #include "warning.h"
 #include "ast.h"

@@ -16,6 +16,8 @@ namespace ecc
 	const warningcode code_;
 	const int line_;
 
+	const string prep_string( const map<string,string>& dict ) const;
+
 	friend ostream& operator<<(ostream&, const warning&);
     };
     
