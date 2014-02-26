@@ -1,7 +1,17 @@
+#include <iostream>
 #include <vector>
 #include <string>
 #include <map>
+#include <sstream>
+#include <set>
+
+using std::vector;
+using std::string;
+using std::set;
+
+#include "sassert.h"
 #include "ast.h"
+
 
 namespace ecc
 {
@@ -26,9 +36,11 @@ namespace ast
 
     }
 
-    void enumdef::insert_value(const pair_t& pair)
+	void enumdef::insert_value(const pair_t& pair, const std::string& longstr)
     {
+	    members.push_back(pair.first);
 	values.insert(pair);
+	    longstrings[pair.first] =  longstr;
     }
 
     void enumdef::setname(std::string* pName)
@@ -40,6 +52,17 @@ namespace ast
     const values_t& enumdef::getvalues() const
     {
 	return values;
+	}
+
+	const vector<string>& enumdef::getmembers() const
+	{
+	    return members;
+	}
+
+	const string& enumdef::getlstring(const string& member) const
+	{
+	    assert(longstrings.find(member)!=longstrings.end());
+	    return longstrings.at(member);
     }
 
     const std::string& enumdef::get_name(void) const
@@ -47,5 +70,25 @@ namespace ast
 	return name;
     }
 
+    bool enumdef::has_duplicate_values(void) const
+    {
+
+	set<int> processed;
+	for ( auto p : values )
+	{
+	    if (p.second!=AST_DEFAULT_ENUM_VALUE)
+	    {
+		if ( processed.find(p.second)!=processed.end() )
+		{
+		    // Duplicate detected - abort
+		    return true;
+		}
+		else
+		    processed.insert(p.second);
+	    }
+	}
+
+	return false;
+    }
 }
 }

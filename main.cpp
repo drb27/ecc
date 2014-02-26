@@ -6,13 +6,7 @@
 #include <vector>
 #include <ostream>
 #include <string>
-#include "ast.h"
-#include "generator.h"
-#include "ecc.tab.h"
-
-extern int _yylex(void);
-
-#define YY_NULL (0)
+#include <exception>
 
 using std::string;
 using std::cerr;
@@ -22,14 +16,35 @@ using std::ofstream;
 using std::istream;
 using std::ifstream;
 using std::vector;
+using std::ostream;
+using std::exception;
+using std::map;
+
+#include "warning.h"
+#include "sassert.h"
+#include "ctree.h"
+#include "ast.h"
+using namespace ecc::ast;
+
+#include "indent.h"
+#include "generator.h"
+#include "defgen.h"
+#include "ecc.tab.h"
+
+extern int _yylex(void);
+
+#define YY_NULL (0)
 
 namespace ecc
 {
-    extern const string version = "ecc v0.2beta";       /**< Version string */
+    extern const string version = "ecc v0.3beta";       /**< Version string */
     ast::elist_t MasterList;				/**< Parser places output here */
     ast::enumdef* CurrentEnumDef;			/**< Used during parsing */
     vector<ast::enumattr> CurrentAttributes;
-    int CurrentLine=1;		                        /**< Current line of input file */
+    vector<warning> Warnings; 
+    int CurrentLine=1;
+    ctree<ast::enumdef> NsTree;                      /**< Data structure for namespaces */
+    ctree<ast::enumdef>* CurrentNamespace; 		                        /**< Current line of input file */
 }
 
 namespace
@@ -150,7 +165,7 @@ static es parse_options(int argc, char** argv)
     
     // If no output file (code) was set, calculate name from input file
     if ( outputFileCode.length() < 1 )
-	outputFileCode = default_outfile(inputFile,"c");
+	outputFileCode = default_outfile(inputFile,"cpp");
     
     // If no output file (header) was set, calculate name from input file
     if ( outputFileHeader.length() < 1 )
@@ -181,7 +196,6 @@ filespec:
 void yyerror(const char* s)
 {
     std::cout << "ERROR: " << s << "  at line " << ecc::CurrentLine <<std::endl;
-    //exit((int)es::syntaxError);
 }
 
 
@@ -207,6 +221,9 @@ int main(int argc, char** argv)
     
     // Tell the scanner where to get its input
     pStream = &ifs;
+
+    // Initialize to the global namespace
+    ecc::CurrentNamespace = &ecc::NsTree;
 
     // Parse the stream, close the input
     yyparse();

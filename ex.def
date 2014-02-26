@@ -4,17 +4,32 @@
  * which is why this is long so we can test 
  * that they are.
  */
+namespace ui;
 typedef enum
 {
     /* Here are the colours! **/
     red, blue, green
 } color_t;
 
+namespace enums::internal;
+typedef enum
+{
+	NoError=0	["No error has occurred"],
+	FatalError	["A fatal error was encountered"],
+	Warning		["A recoverable error has occurred"]
+} errorcode;
+
 typedef enum : flags
 {
 	/* And here are the flags! // woooo //  */
 	noflags,         // Single-line comments are supported
-	readfile=1,
-	writefile=2,
+	readfile=2,
+	writefile=2,	// ["This is illegal"],
 	truncatefile=4
 } flags_t;
+namespace enums;
+typedef enum
+{
+	False=0,
+	True
+} bool_t;

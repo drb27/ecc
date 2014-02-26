@@ -2,9 +2,13 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <sstream>
 #include <map>
 using namespace std;
 
+#include "warning.h"
+#include "sassert.h"
+#include "ctree.h"
 #include "ast.h"
 #include "globals.h"
 
@@ -31,20 +35,30 @@ void yyerror(const char*);
 %token ENUM
 %token EQUALS
 %token IDENTIFIER
+%token IDENTIFIER_SCOPED
 %token INTEGER
 %token SEMICOLON
 %token TYPEDEF
 %token COLON
 %token ATTR_FLAGS
+%token SB_OPEN
+%token SB_CLOSE
+%token DBL_QUOTE
+%token STRING
+%token NAMESPACE
 
 %type <int_val> INTEGER
 %type <string_val> IDENTIFIER
+%type <string_val> IDENTIFIER_SCOPED
+%type <string_val> STRING
+%type <string_val> longstring_option
+
 %start input
 
 %%
 
 input:   /* empty */ 
-     | enumlist
+     | stmts
      ;
 
 attr: ATTR_FLAGS;
@@ -53,8 +67,15 @@ attrlist : attr { CurrentAttributes.push_back(ecc::ast::enumattr::flags); }
     | attrlist COMMA attr { CurrentAttributes.push_back(ecc::ast::enumattr::flags); }
     ;
 
-enumlist: enumdef
-     | enumlist enumdef;
+stmt: enumdef | directive;
+
+nsspec: NAMESPACE IDENTIFIER_SCOPED SEMICOLON { ac_set_namespace($2); }
+      | NAMESPACE IDENTIFIER SEMICOLON { ac_set_namespace($2); }
+
+directive: nsspec;
+
+stmts: stmt
+     | stmts stmt;
 
 typedefspec: TYPEDEF ENUM { ac_register_enumdef( new enumdef() ); }  
      | TYPEDEF ENUM COLON { CurrentAttributes.clear(); } 
@@ -68,27 +89,15 @@ enumdef: typedefspec
        | error SEMICOLON;
     
     
-valuelist:   firstvaluepair  
-	| firstvaluepair subsequentlist
+valuelist: valuepair  
+	| valuepair COMMA valuelist
 	;
     
-subsequentlist:   subsequentvaluepair 
-	| subsequentlist subsequentvaluepair
-	;
+longstring_option: SB_OPEN STRING SB_CLOSE { $$=$2; } | { $$=new std::string(""); } ;
     
-firstvaluepair:   
-    IDENTIFIER  
-    { CurrentEnumDef->insert_value(pair_t(*$1,AST_DEFAULT_ENUM_VALUE) ); delete $1; }
-    | IDENTIFIER EQUALS INTEGER 
-    { CurrentEnumDef->insert_value(pair_t(*$1,$3) ); delete $1; }
-    ;
-    
-subsequentvaluepair:   
-    COMMA IDENTIFIER 
-    { CurrentEnumDef->insert_value(pair_t(*$2,AST_DEFAULT_ENUM_VALUE) ); delete $2; }
-    | COMMA IDENTIFIER EQUALS INTEGER 
-    { CurrentEnumDef->insert_value(pair_t(*$2,$4) ); delete $2; }
-    ;
+valuepair:   
+    IDENTIFIER longstring_option { ac_insert_member($1,AST_DEFAULT_ENUM_VALUE,$2); }
+  | IDENTIFIER EQUALS INTEGER longstring_option { ac_insert_member($1,$3,$4); };
     
 %%
 	  
