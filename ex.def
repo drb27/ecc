@@ -30,6 +30,6 @@ typedef enum : flags
 namespace enums;
 typedef enum
 {
-	false=0,
-	true
+	False=0,
+	True
 } bool_t;
