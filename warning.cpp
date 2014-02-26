@@ -32,6 +32,11 @@ namespace ecc
 	ss << val;
 	dict_[tk] = ss.str();
     }
+
+    string& warning::operator[](const string& key)
+    {
+	return dict_[key];
+    }
     
     const string warning::prep_string() const
     {

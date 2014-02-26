@@ -15,6 +15,8 @@ namespace ecc
 	void push_token(const string& tk, const string& val);
 	void push_token(const string& tk, int val);
 
+	string& operator[](const string& key);
+    
     protected:
 	const warningcode code_;
 	const int line_;

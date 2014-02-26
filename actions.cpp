@@ -38,13 +38,12 @@ namespace ecc
      */
     void ac_push_enumdef(string* pName)
     {
-	/** @todo Check duplicate members */
-
 	// Check duplicate values
 	if ( CurrentEnumDef->has_duplicate_values() )
 	{
-	    ac_register_warning( 
-		warning(warningcode::DuplicateValue, CurrentLine) );
+	    warning w(warningcode::DuplicateValue, CurrentLine);
+	    w["#enum"] = *pName;
+	    ac_register_warning(w);
 	}
 
 	// Check duplicate name
@@ -58,7 +57,6 @@ namespace ecc
 	    throw duplicateenumexception(pName,CurrentLine);
 	    delete pName;
 	}
-
     }
 
     /** 

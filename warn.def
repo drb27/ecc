@@ -9,5 +9,5 @@ namespace ecc;
 typedef enum
 {
 	NoWarning=0,
-	DuplicateValue=1 ["Duplicate member value on enum at line #line"]	
+	DuplicateValue=1 ["Duplicate member value on #enum at line #line"]	
 } warningcode;
