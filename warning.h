@@ -1,23 +1,19 @@
 #ifndef WARNING_H_
 #define WARNING_H_
 
+#include "warn.h"
+
 namespace ecc
 {
     class warning
     {
     public:
 
-	typedef enum
-	{
-	    invalid=0,
-	    duplicateValue
-	} code;
-
-	warning(code cde,int line);
+	warning(warningcode cde,int line);
 	virtual ~warning();
 
     protected:
-	const code code_;
+	const warningcode code_;
 	const int line_;
 
 	friend ostream& operator<<(ostream&, const warning&);

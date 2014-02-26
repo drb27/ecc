@@ -5,7 +5,7 @@ using namespace std;
 
 namespace ecc
 {
-    warning::warning(code cde, int line)
+    warning::warning(warningcode cde, int line)
 	:code_(cde), line_(line)
     {
 
@@ -18,7 +18,7 @@ namespace ecc
 
     ostream& operator<<(ostream& str,const warning& w)
     {
-	str << "WRN" << w.code_ << ": at line" << w.line_;
+	str << getstr_warningcode(w.code_,true);
 	return str;
     }
 }

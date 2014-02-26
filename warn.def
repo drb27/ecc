@@ -1,0 +1,13 @@
+/**
+ * warn.def 
+ *
+ * enum definitions and strings for compiler warnings.
+ * NOTE: This file will NOT compile with THIS version of ecc!
+ */
+ 
+namespace ecc;
+typedef enum
+{
+	NoWarning=0,
+	DuplicateValue=1 ["Duplicate member value on #enum at line #y"]	
+} warningcode;

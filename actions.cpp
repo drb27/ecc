@@ -44,7 +44,7 @@ namespace ecc
 	if ( CurrentEnumDef->has_duplicate_values() )
 	{
 	    ac_register_warning( 
-		warning(warning::code::duplicateValue, CurrentLine) );
+		warning(warningcode::DuplicateValue, CurrentLine) );
 	}
 
 	// Check duplicate name
