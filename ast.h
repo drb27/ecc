@@ -39,6 +39,7 @@ namespace ecc
 	    virtual void setname( std::string* nm);
 	    virtual const std::string& get_name(void) const final;
 
+	    bool has_duplicate_values(void) const;
 	    inline bool is_flags(void) const { return flags; }
 
 	protected:

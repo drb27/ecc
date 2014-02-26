@@ -15,6 +15,7 @@ using std::endl;
 using std::ostream;
 using std::cout;
 using std::vector;
+using std::map;
 
 #include "sassert.h"
 #include "ctree.h"
@@ -22,6 +23,7 @@ using std::vector;
 #include "ast.h"
 using namespace ecc::ast;
 
+#include "warning.h"
 #include "indent.h"
 #include "generator.h"
 #include "globals.h"

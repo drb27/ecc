@@ -6,6 +6,7 @@
 #include <map>
 using namespace std;
 
+#include "warning.h"
 #include "sassert.h"
 #include "ctree.h"
 #include "ast.h"
@@ -45,6 +46,7 @@ void yyerror(const char*);
 %token DBL_QUOTE
 %token STRING
 %token NAMESPACE
+
 %type <int_val> INTEGER
 %type <string_val> IDENTIFIER
 %type <string_val> IDENTIFIER_SCOPED
@@ -90,12 +92,12 @@ enumdef: typedefspec
 valuelist: valuepair  
 	| valuepair COMMA valuelist
 	;
-
+    
 longstring_option: SB_OPEN STRING SB_CLOSE { $$=$2; } | { $$=new std::string(""); } ;
-
+    
 valuepair:   
     IDENTIFIER longstring_option { ac_insert_member($1,AST_DEFAULT_ENUM_VALUE,$2); }
   | IDENTIFIER EQUALS INTEGER longstring_option { ac_insert_member($1,$3,$4); };
-   
+    
 %%
 	  

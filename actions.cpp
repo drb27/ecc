@@ -1,3 +1,4 @@
+#include <iostream>
 #include <string>
 #include <vector>
 #include <map>
@@ -13,11 +14,11 @@ using namespace std;
 #include "ast.h"
 using namespace ecc::ast;
 
+#include "warning.h"
 #include "actions.h"
 #include "check.h"
 #include "globals.h"
 #include "errors.h"
-
 
 namespace ecc
 {
@@ -35,11 +36,23 @@ namespace ecc
     /**
      * Pushes the current enumdef (set with ac_create_enumdef) onto the mater
      * list, with the given name. 
+     *
+     * At the point this call is made, the end definition is complete, with all
+     * member/value pairs assigned. The name is assigned as part of this call.
+     *
      * @param pName The name to use. Note that this string will be deleted during the call
      */
     void ac_push_enumdef(string* pName)
     {
-	// Push onto the master list
+	// Check duplicate values
+	if ( CurrentEnumDef->has_duplicate_values() )
+	{
+	    warning w(warningcode::DuplicateValue, CurrentLine);
+	    w["#enum"] = *pName;
+	    ac_register_warning(w);
+	}
+
+	// Check duplicate name
 	if (!chk_enum_exists(*pName,MasterList))
 	{
 	    CurrentEnumDef->setname(pName);
@@ -95,5 +108,19 @@ namespace ecc
 
 	// Point to it
 	CurrentNamespace = &NsTree.lookup(*mpNamespace);
+    }
+ /** 
+     * Allows the scanner/parser to register a warning. 
+     *
+     * The reference is copied onto a list as part of this call. 
+     * The caller can disband the warning object after the call has
+     * returned. 
+     *
+     * @param wn A reference to a temporary warning object. 
+     */
+    void ac_register_warning(const warning& wn)
+    {
+	Warnings.push_back(wn);
+	std::cerr << wn << std::endl;
     }
 }

@@ -11,7 +11,10 @@
 using std::string;
 using std::vector;
 using std::exception;
+using std::ostream;
+using std::map;
 
+#include "warning.h"
 #include "sassert.h"
 #include "ctree.h"
 #include "ast.h"

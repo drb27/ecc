@@ -1,4 +1,4 @@
-OBJS=actions.o ast.o check.o ecc.tab.o errors.o generator.o defgen.o indent.o lex.yy.o main.o
+OBJS=warn.o actions.o ast.o check.o ecc.tab.o errors.o generator.o defgen.o indent.o lex.yy.o main.o warning.o
 DEPS=globals.h version.h
 TEST_MODULES=$(wildcard tests/*.cpp)
 TEST_OBJS=$(TEST_MODULES:.cpp=.o)

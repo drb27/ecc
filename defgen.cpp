@@ -7,6 +7,7 @@
 using namespace std;
 
 #include "sassert.h"
+#include "warning.h"
 #include "ctree.h"
 #include "version.h"
 #include "ast.h"

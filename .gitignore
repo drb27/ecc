@@ -11,6 +11,7 @@ ecc.tab.cpp
 ecc.tab.h
 lex.yy.cpp
 ex.c
+ex.cpp
 ex.h
 ecc
 /test

@@ -18,7 +18,9 @@ using std::ifstream;
 using std::vector;
 using std::ostream;
 using std::exception;
+using std::map;
 
+#include "warning.h"
 #include "sassert.h"
 #include "ctree.h"
 #include "ast.h"
@@ -35,13 +37,14 @@ extern int _yylex(void);
 
 namespace ecc
 {
-    extern const string version = "ecc v0.2beta";    /**< Version string */
-    ast::elist_t MasterList;			     /**< Parser places output here */
-    ast::enumdef* CurrentEnumDef;		     /**< Used during parsing */
-    vector<ast::enumattr> CurrentAttributes;         /**< Used during parsing */
-    int CurrentLine=1;		                     /**< Current line of input file */
+    extern const string version = "ecc v0.2beta";       /**< Version string */
+    ast::elist_t MasterList;				/**< Parser places output here */
+    ast::enumdef* CurrentEnumDef;			/**< Used during parsing */
+    vector<ast::enumattr> CurrentAttributes;
+    vector<warning> Warnings; 
+    int CurrentLine=1;
     ctree<ast::enumdef> NsTree;                      /**< Data structure for namespaces */
-    ctree<ast::enumdef>* CurrentNamespace;           /**< Points to the current namespace */
+    ctree<ast::enumdef>* CurrentNamespace; 		                        /**< Current line of input file */
 }
 
 namespace
