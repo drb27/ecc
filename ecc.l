@@ -18,11 +18,18 @@ using std::map;
 #include "sassert.h"
 #include "ctree.h"
 #include "ast.h"
+#include "actions.h"
 #include "ecc.tab.h"
-#include "globals.h"
+
+namespace ecc
+{
+    extern void input(char*, int&, size_t);
+}
+
+using namespace ecc;
 
 #undef YY_INPUT
-#define YY_INPUT(buf,result,max_size) ecc::input(buf,result,max_size);
+#define YY_INPUT(buf,result,max_size) input(buf,result,max_size);
 
 #undef YY_DECL
 #define YY_DECL int _yylex(void)
@@ -42,7 +49,7 @@ WS    [ \t]+
 "/*"              { BEGIN(MLC); }
 <MLC>[^*\n]*      // Eat anything that is not a star or newline
 <MLC>"*"+[^*/\n]* // Eat stars not followed by a /
-<MLC>\n           { ecc::CurrentLine++; }
+<MLC>\n           { ac_line_increment(); }
 <MLC>"*"+"/"      { BEGIN(INITIAL); }
 
 typedef     { return TYPEDEF; }
@@ -64,7 +71,7 @@ namespace   { return NAMESPACE; }
 {ID}        { yylval.string_val = new std::string(yytext); return IDENTIFIER; }
 {IDS}       { yylval.string_val = new std::string(yytext); return IDENTIFIER_SCOPED; }
 {WS}
-\/\/[^\n]*\n { ecc::CurrentLine++; } // Chew single line comments
-\n          { ecc::CurrentLine++; }
+\/\/[^\n]*\n { ac_line_increment(); } // Chew single line comments
+\n          { ac_line_increment(); }
 %%
 

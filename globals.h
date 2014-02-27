@@ -11,7 +11,6 @@ namespace ecc
     extern int CurrentLine;
     extern ctree<ast::enumdef> NsTree;
     extern ctree<ast::enumdef>* CurrentNamespace;
-    void input(char*, int&, size_t);
 
 }
 

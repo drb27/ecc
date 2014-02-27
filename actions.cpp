@@ -128,7 +128,8 @@ namespace ecc
 	// Point to it
 	CurrentNamespace = &NsTree.lookup(*mpNamespace);
     }
- /** 
+    
+    /** 
      * Allows the scanner/parser to register a warning. 
      *
      * The reference is copied onto a list as part of this call. 
@@ -141,5 +142,15 @@ namespace ecc
     {
 	Warnings.push_back(wn);
 	std::cerr << wn << std::endl;
+    }
+
+    /**
+     * Increments the line counter. 
+     *
+     * @param lines Number of lines to increment, defaults to 1
+     */
+    void ac_line_increment(int lines)
+    {
+	CurrentLine += lines;
     }
 }
