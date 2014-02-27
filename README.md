@@ -39,15 +39,15 @@ Here are the issues which have been addressed since the previous release. You ca
 
 |Issue # | Description |
 |--------|-------------|
-|5	 | Generator includes timestamp in output|
-|6 	 | Refactoring of generator/defgen|
-|9 	 | Automatic dependencies for build system|
-|10	 | Compiler warnings added|
-|11	 | longstring support added|
-|12	 | Member order is now preserved|
-|13	 | Default code output file has .cpp extension|
-|14	 | Namespace support added|
-|15	 | Fixed indentation bug in generated output|
+|#5	 | Generator includes timestamp in output|
+|#6 	 | Refactoring of generator/defgen|
+|#9 	 | Automatic dependencies for build system|
+|#10	 | Compiler warnings added|
+|#11	 | longstring support added|
+|#12	 | Member order is now preserved|
+|#13	 | Default code output file has .cpp extension|
+|#14	 | Namespace support added|
+|#15	 | Fixed indentation bug in generated output|
 
 Release Log
 -----------
