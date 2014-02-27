@@ -37,17 +37,20 @@ namespace ecc
 				       const std::string& longstr = std::string("") );
 	    virtual const vector<string>& getmembers() const;
 	    virtual void setname( std::string* nm);
+	    virtual void setnamespace( const ctree<enumdef>* );
+	    virtual const ctree<enumdef>* nspace(void) const;
 	    virtual const std::string& get_name(void) const final;
 
 	    bool has_duplicate_values(void) const;
 	    inline bool is_flags(void) const { return flags; }
 
 	protected:
-	    std::string name;        /**< The name of the enum type */
-	    values_t values;         /**< Map of members to values */
-	    vector<string> members;  /**< List of members, in declared order */
+	    std::string name;                 /**< The name of the enum type */
+	    values_t values;                  /**< Map of members to values */
+	    vector<string> members;           /**< List of members, in declared order */
 	    longstring_map_t longstrings;	    
-	    bool flags;              /**< True if the enum is a set of flags */
+	    bool flags;                       /**< True if the enum is a set of flags */
+	    const ctree<enumdef>* pNamespace; /**< Owning namespace node */
 	};
     
 	/** list type for the list of enumdefs at the top of the tree */

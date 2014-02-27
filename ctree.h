@@ -76,7 +76,7 @@ public:
 		 (subnodes_==other.subnodes_) && (parent_==other.parent_) );
     }
 
-    std::string fqn() const
+    std::string fqn(const string& sep = SEPARATOR) const
     {
 	if (!parent_)
 	{
@@ -86,7 +86,7 @@ public:
 	{
 	    const std::string parent_fqn = parent_->fqn();
 	    if (parent_fqn.length())
-		return parent_fqn + SEPARATOR + name();
+		return parent_fqn + sep + name();
 	    else return name();
 	}
     }

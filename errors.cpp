@@ -3,8 +3,12 @@
 #include <map>
 #include <vector>
 #include <sstream>
+#include <iostream>
+
 using namespace std;
 
+#include "sassert.h"
+#include "ctree.h"
 #include "ast.h"
 using namespace ecc::ast;
 

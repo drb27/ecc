@@ -55,17 +55,20 @@ namespace ecc
 	// Check duplicate name
 	if (!chk_enum_exists(*pName,MasterList))
 	{
+	    // Set name and namespace, push onto list
 	    CurrentEnumDef->setname(pName);
+	    CurrentEnumDef->setnamespace(CurrentNamespace);
 	    MasterList.push_back( CurrentEnumDef );
+	    
+	    // Add to the namespace tree
+	    CurrentNamespace->insert_member(CurrentEnumDef);
+
 	}
 	else
 	{
 	    throw duplicateenumexception(pName,CurrentLine);
 	    delete pName;
 	}
-
-	// Add to the namespace tree
-	CurrentNamespace->insert_member(CurrentEnumDef);
 
     }
 
