@@ -10,7 +10,6 @@ using namespace std;
 #include "sassert.h"
 #include "ctree.h"
 #include "ast.h"
-#include "globals.h"
 
 using namespace ecc;
 using namespace ecc::ast;
@@ -63,8 +62,8 @@ input:   /* empty */
 
 attr: ATTR_FLAGS;
 
-attrlist : attr { CurrentAttributes.push_back(ecc::ast::enumattr::flags); }
-    | attrlist COMMA attr { CurrentAttributes.push_back(ecc::ast::enumattr::flags); }
+attrlist : attr { ac_register_attribute(ecc::ast::enumattr::flags); }
+    | attrlist COMMA attr { ac_register_attribute(ecc::ast::enumattr::flags); }
     ;
 
 stmt: enumdef | directive;
@@ -77,9 +76,8 @@ directive: nsspec;
 stmts: stmt
      | stmts stmt;
 
-typedefspec: TYPEDEF ENUM { ac_register_enumdef( new enumdef() ); }  
-     | TYPEDEF ENUM COLON { CurrentAttributes.clear(); } 
-       attrlist { ac_register_enumdef( new enumdef(CurrentAttributes) ); } 
+typedefspec: TYPEDEF ENUM { ac_begin_enumdef(); }  
+     | TYPEDEF ENUM COLON attrlist { ac_begin_enumdef(); } 
      ;
 
 

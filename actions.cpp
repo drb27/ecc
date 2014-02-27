@@ -28,9 +28,9 @@ namespace ecc
      *
      * @param ped the newly created object 
      */
-    void ac_register_enumdef(enumdef* ped)
+    void ac_begin_enumdef()
     {
-	CurrentEnumDef = ped;
+	CurrentEnumDef = new enumdef(CurrentAttributes);
     }
 
     /**
@@ -51,6 +51,9 @@ namespace ecc
 	    w["#enum"] = *pName;
 	    ac_register_warning(w);
 	}
+
+	// Clear the attributes list ready for the next one
+	CurrentAttributes.clear();
 
 	// Check duplicate name
 	if (!chk_enum_exists(*pName,MasterList))
@@ -96,6 +99,19 @@ namespace ecc
 	    // If we got here, we're good. Do the insert.
 	    CurrentEnumDef->insert_value(pair_t(*pMember,val),*pLongStr);
 	}
+    }
+
+    /** 
+     * Applies the given attribute to the attributes list. During the
+     * parsing of the current enumdef, the parser calls 
+     * ac_register_enumdef(), which applies the attributes in the 
+     * attribute list.
+     *
+     * @param attr the attribute to apply
+     */
+    void ac_register_attribute( ast::enumattr attr)
+    {
+	CurrentAttributes.push_back(attr);
     }
 
     /**
