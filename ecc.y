@@ -1,11 +1,5 @@
 %{
-#include <vector>
-#include <string>
-#include <iostream>
-#include <sstream>
-#include <map>
-using namespace std;
-
+#include "std.h"
 #include "warning.h"
 #include "sassert.h"
 #include "ctree.h"

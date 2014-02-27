@@ -1,8 +1,4 @@
-#include <string>
-#include <iostream>
-#include <sstream>
-using namespace std;
-
+#include "std.h"
 #include "sassert.h"
 #include "indent.h"
 

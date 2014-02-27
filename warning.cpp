@@ -1,10 +1,4 @@
-#include <iostream>
-#include <map>
-#include <string>
-#include <sstream>
-#include <iomanip>
-using namespace std;
-
+#include "std.h"
 #include "sassert.h"
 #include "warning.h"
 

@@ -1,16 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <string>
-#include <map>
-#include <sstream>
-#include <set>
-#include <exception>
-
-using std::vector;
-using std::string;
-using std::set;
-using std::exception;
-
+#include "std.h"
 #include "sassert.h"
 #include "ctree.h"
 #include "ast.h"

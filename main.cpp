@@ -1,24 +1,4 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <vector>
-#include <map>
-#include <vector>
-#include <ostream>
-#include <string>
-#include <exception>
-
-using std::string;
-using std::cerr;
-using std::cout;
-using std::endl;
-using std::ofstream;
-using std::istream;
-using std::ifstream;
-using std::vector;
-using std::ostream;
-using std::exception;
-using std::map;
+#include "std.h"
 
 #include "warning.h"
 #include "sassert.h"
