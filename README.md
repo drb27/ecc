@@ -1,7 +1,7 @@
 ecc
 ===
 
-This is __ecc v0.2*beta*__. The Enum Compile Command (ecc) is a simple linux utility which takes enum definitions written in pseudo-c++ and 
+This is __ecc v0.3*beta*__. The Enum Compile Command (ecc) is a simple linux utility which takes enum definitions written in pseudo-c++ and 
 spits out c++ files containing the type definition, and a set of constants and functions which allow the runtime conversion of an enum value into a string. These files can then be included/compiled into your program. 
 
 This utility is of little practical use. It was written mainly as a way for me to learn a little bit about scanning
@@ -31,3 +31,31 @@ License
 -------
 
 This software is made available under the MIT license. This is a simple, permissive license which places very few restrictions on your free use of this code. Please see the LICENSE file in the root of the repository for the full text. 
+
+New in this release
+-------------------
+
+Here are the issues which have been addressed since the previous release. You can see more details in the issue log at github. 
+
+|Issue # | Description |
+|--------|-------------|
+|5	 | Generator includes timestamp in output|
+|6 	 | Refactoring of generator/defgen|
+|9 	 | Automatic dependencies for build system|
+|10	 | Compiler warnings added|
+|11	 | longstring support added|
+|12	 | Member order is now preserved|
+|13	 | Default code output file has .cpp extension|
+|14	 | Namespace support added|
+|15	 | Fixed indentation bug in generated output|
+
+Release Log
+-----------
+
+|Release|Date|Description|
+|-------|----|-----------|
+|v0.2beta|16th February, 2014|Initial baseline release|
+|v0.3beta|26th February, 2014|Added support for namespaces,longstrings, and warnings|
+
+
+
