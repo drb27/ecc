@@ -111,11 +111,14 @@ namespace ecc
 	
     	for ( auto pItem : items )
     	{
+	    const string fqns = pItem->nspace()->fqn("_");
+
 	    // Loop through the regular strings
     	    for ( auto member : pItem->getmembers() )
     	    {
-    		ss << ind() << "static const string " << pItem->get_name() << "_"
-    		   << member << " = " << "\"" << member << "\";" << endl;
+    		ss << ind() << "static const string " << fqns << "_" << 
+		    pItem->get_name() << "_" << member << " = " << "\"" 
+		   << member << "\";" << endl;
     	    }
 
 	    // Loop through the longstrings
@@ -124,7 +127,8 @@ namespace ecc
 		const string& ls = pItem->getlstring(member);
 		if ( !ls.empty() )
 		{
-		    ss << ind() << "static const string " << pItem->get_name() << "_l_"
+		    ss << ind() << "static const string " << fqns << "_" 
+		       << pItem->get_name() << "_l_"
 		       << member << " = " << "\"" << ls << "\";" << endl;
 		}
 	    }
@@ -155,15 +159,17 @@ namespace ecc
 	    ind++;
 
 	    const string& ls = item.getlstring(member);
+	    const string fqns = item.nspace()->fqn("_");
 	    if (!ls.empty())
 	    {
 		ss << ind() << "return (longStr)?"
-		   << item.get_name() << "_l_" << member
-		   << ":" << item.get_name() << "_" << member << ";" << endl;
+		   << fqns << "_" << item.get_name() << "_l_" << member
+		   << ":" << fqns << "_" << item.get_name() << "_" << member << ";" << endl;
 	    }
 	    else
 	    {
-		ss << ind() << "return " << item.get_name() << "_" << member << ";" << endl; 
+		ss << ind() << "return " << fqns << "_" << item.get_name() 
+		   << "_" << member << ";" << endl; 
 	    }
 	    ind--;
     	}
@@ -194,10 +200,11 @@ namespace ecc
     	ss << ind() << "stringstream ss;" << endl;
     	ss << ind() << "bool sep=false;" << endl;
 	
+	const string fqns = item.nspace()->fqn("_");
     	for ( auto member : item.getmembers() )
     	{
     	    ss << ind() << "if ( v & " << member << ") { if (sep) ss << \",\"; "
-    	       << " ss << " << item.get_name() << "_" << member 
+    	       << " ss << " << fqns << "_" << item.get_name() << "_" << member 
     	       << "; sep=true; }" << endl;
     	}
     	ss << ind() << "return ss.str();" << endl;
