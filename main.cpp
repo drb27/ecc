@@ -7,6 +7,7 @@
 #include <ostream>
 #include <string>
 #include <exception>
+#include <memory>
 
 using std::string;
 using std::cerr;
@@ -19,6 +20,7 @@ using std::vector;
 using std::ostream;
 using std::exception;
 using std::map;
+using std::unique_ptr;
 
 #include "warning.h"
 #include "sassert.h"
@@ -248,9 +250,8 @@ int main(int argc, char** argv)
     }
 
     // Generate the output (defaults to cout)
-    ecc::generator* pGen = new ecc::defgen();
+    unique_ptr<ecc::generator> pGen(new ecc::defgen());
     pGen->translate( ecc::MasterList, outputFileHeader, outputFileCode, ofsc, ofsh );
-    delete pGen;
 
     ofsc.close();
     ofsh.close();
