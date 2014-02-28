@@ -1,7 +1,6 @@
 #include "std.h"
 #include "sassert.h"
 #include "ctree.h"
-#include "version.h"
 #include "ast.h"
 using namespace ecc::ast;
 
