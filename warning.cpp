@@ -5,9 +5,9 @@
 namespace ecc
 {
     warning::warning(warningcode cde, int line)
-	:code_(cde), line_(line)
+	:code_(cde)
     {
-	push_token("#line",line_);
+	push_token("#line",line);
     }
 
     warning::~warning()

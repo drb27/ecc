@@ -19,7 +19,6 @@ namespace ecc
     
     protected:
 	const warningcode code_;
-	const int line_;
 	map<string,string> dict_;
 
 	const string prep_string(void) const;
