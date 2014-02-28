@@ -1,5 +1,4 @@
 OBJS=warn.o actions.o ast.o check.o ecc.tab.o errors.o generator.o defgen.o indent.o lex.yy.o main.o warning.o
-DEPS=globals.h version.h
 TEST_MODULES=$(wildcard tests/*.cpp)
 TEST_OBJS=$(TEST_MODULES:.cpp=.o)
 TEST_TARGETS=ast.o
@@ -11,7 +10,7 @@ LIBS += -lgcov
 CXXFLAGS += -fprofile-arcs -ftest-coverage -O0 -fno-inline -ggdb
 endif
 
-ecc: $(OBJS) $(DEPS)
+ecc: $(OBJS)
 	g++ $(OBJS) $(CXXFLAGS) $(INC) -o $@
 
 -include $(OBJS:.o=.d)

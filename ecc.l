@@ -1,19 +1,6 @@
 %option noyywrap
 %{
-#include <math.h>
-#include <iostream>
-#include <sstream>
-#include <vector>
-#include <string>
-#include <map>
-#include <exception>
-
-using std::string;
-using std::vector;
-using std::exception;
-using std::ostream;
-using std::map;
-
+#include "std.h"
 #include "warning.h"
 #include "sassert.h"
 #include "ctree.h"

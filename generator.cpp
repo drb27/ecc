@@ -1,25 +1,6 @@
-#include <iostream>
-#include <map>
-#include <vector>
-#include <sstream>
-#include <string>
-#include <ctime>
-#include <exception>
-#include <functional>
-
-using std::function;
-using std::exception;
-using std::string;
-using std::stringstream;
-using std::endl;
-using std::ostream;
-using std::cout;
-using std::vector;
-using std::map;
-
+#include "std.h"
 #include "sassert.h"
 #include "ctree.h"
-#include "version.h"
 #include "ast.h"
 using namespace ecc::ast;
 

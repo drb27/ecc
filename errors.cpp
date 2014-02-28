@@ -1,12 +1,4 @@
-#include <exception>
-#include <string>
-#include <map>
-#include <vector>
-#include <sstream>
-#include <iostream>
-
-using namespace std;
-
+#include "std.h"
 #include "sassert.h"
 #include "ctree.h"
 #include "ast.h"
