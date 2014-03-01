@@ -52,6 +52,7 @@ void yyerror(const char*);
 
 input:   /* empty */ 
      | stmts
+     | error { ac_raise_error(SyntaxError); }
      ;
 
 attr: ATTR_FLAGS;
@@ -78,7 +79,10 @@ typedefspec: TYPEDEF ENUM { ac_begin_enumdef(); }
 enumdef: typedefspec 
          CURLY_OPEN valuelist CURLY_CLOSE IDENTIFIER SEMICOLON 
          { ac_push_enumdef($5); }
-       | error SEMICOLON;
+       | typedefspec CURLY_OPEN valuelist CURLY_CLOSE IDENTIFIER { ac_push_enumdef($5); }
+         error { ac_raise_error(MissingSemicolon); } SEMICOLON;
+       | TYPEDEF error { ac_raise_error(MalformedEnumdef,true); } SEMICOLON
+       ;
     
     
 valuelist: valuepair  

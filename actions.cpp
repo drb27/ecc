@@ -143,6 +143,16 @@ namespace ecc
 	std::cerr << wn << std::endl;
     }
 
+    void ac_raise_error(errorcode ec, bool addname)
+    {
+	error e(ec,CurrentLine);
+	
+	if (addname)
+	    e["#enum"] = CurrentEnumDef->get_name();
+	
+	throw e;
+    }
+
     /**
      * Increments the line counter. 
      *

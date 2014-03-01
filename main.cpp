@@ -178,7 +178,7 @@ filespec:
  */
 void yyerror(const char* s)
 {
-    std::cout << "ERROR: " << s << "  at line " << ecc::CurrentLine <<std::endl;
+    //std::cout << "ERROR: " << s << "  at line " << ecc::CurrentLine <<std::endl;
 }
 
 
