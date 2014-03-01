@@ -64,7 +64,7 @@ namespace ecc
 
 	stringstream str;
 	str << category_ << setfill('0') << setw(3) << code_ << ": " 
-	    << ws << setfill(' ');
+	    << ws << " at line " << dict_.at("#line") << setfill(' ');
 
 	return str.str();
 
