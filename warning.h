@@ -2,30 +2,22 @@
 #define WARNING_H_
 
 #include "warn.h"
+#include "notification.h"
 
 namespace ecc
 {
-    class warning
+    class warning : public notification
     {
     public:
 
-	warning(warningcode cde,int line);
+	warning(warningcode cde, int line);
 	virtual ~warning();
 
-	void push_token(const string& tk, const string& val);
-	void push_token(const string& tk, int val);
 
-	string& operator[](const string& key);
-    
     protected:
-	const warningcode code_;
-	map<string,string> dict_;
+	virtual string get_template(void) const;
 
-	const string prep_string(void) const;
-
-	friend ostream& operator<<(ostream&, const warning&);
     };
     
-    ostream& operator<<(ostream&, const warning&);
 }
 #endif
