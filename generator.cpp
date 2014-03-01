@@ -106,7 +106,7 @@ namespace ecc
     	string guard = prefix + leaf(fPath) + "_";
     	for ( auto i = guard.begin(); i!=guard.end(); i++ )
     	{
-    	    if ( (*i) == '.') 
+    	    if ( ( (*i) == '.') || ( (*i) == '-') ) 
     		(*i) = '_';
     	    else
     		(*i) = toupper(*i);
