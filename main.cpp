@@ -20,14 +20,14 @@ extern int _yylex(void);
 
 namespace ecc
 {
-    extern const string version = "ecc v0.3beta";       /**< Version string */
-    ast::elist_t MasterList;				/**< Parser places output here */
-    ast::enumdef* CurrentEnumDef;			/**< Used during parsing */
-    vector<ast::enumattr> CurrentAttributes;
-    vector<warning> Warnings; 
-    int CurrentLine=1;
-    ctree<ast::enumdef> NsTree;                      /**< Data structure for namespaces */
-    ctree<ast::enumdef>* CurrentNamespace; 		                        /**< Current line of input file */
+    extern const string version = "ecc v0.3beta";   /**< Version string */
+    ast::elist_t MasterList;			    /**< Parser places output here */
+    ast::enumdef* CurrentEnumDef;		    /**< Used during parsing */
+    vector<ast::enumattr> CurrentAttributes;        /**< Used during parsing */
+    vector<warning> Warnings;                       /**< List of warnings encountered */
+    int CurrentLine=1;                              /**< Current line of input file */
+    ctree<ast::enumdef> NsTree;                     /**< Data structure for namespaces */
+    ctree<ast::enumdef>* CurrentNamespace; 	    /**< Current namespace */
 }
 
 namespace
