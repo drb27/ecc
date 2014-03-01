@@ -11,7 +11,9 @@ namespace ecc
     void ac_register_attribute( ast::enumattr attr);
 
     void ac_set_namespace(string* pNamespace);
+
     void ac_register_warning(const warning& wn);
+    void ac_raise_error( errorcode ec, bool addname=false);
 
     void ac_line_increment(int lines=1);
 }

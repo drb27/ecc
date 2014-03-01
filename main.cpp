@@ -1,6 +1,5 @@
 #include "std.h"
 
-#include "warning.h"
 #include "sassert.h"
 #include "ctree.h"
 #include "ast.h"
@@ -10,6 +9,10 @@ using namespace ecc::ast;
 #include "generator.h"
 #include "defgen.h"
 #include "ecc.tab.h"
+
+#include "notification.h"
+#include "warning.h"
+#include "errors.h"
 
 extern int _yylex(void);
 
@@ -175,7 +178,7 @@ filespec:
  */
 void yyerror(const char* s)
 {
-    std::cout << "ERROR: " << s << "  at line " << ecc::CurrentLine <<std::endl;
+    //std::cout << "ERROR: " << s << "  at line " << ecc::CurrentLine <<std::endl;
 }
 
 
@@ -206,7 +209,14 @@ int main(int argc, char** argv)
     ecc::CurrentNamespace = &ecc::NsTree;
 
     // Parse the stream, close the input
-    yyparse();
+    try
+    {
+	yyparse();
+    }
+    catch ( const ecc::error& e)
+    {
+	cerr << e << endl;
+    }
     ifs.close();
 
     // Attempt to open the output file (code)

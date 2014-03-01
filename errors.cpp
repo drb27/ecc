@@ -1,86 +1,28 @@
 #include "std.h"
 #include "sassert.h"
-#include "ctree.h"
-#include "ast.h"
-using namespace ecc::ast;
-
 #include "errors.h"
+
+namespace 
+{
+    const string CategoryPrefix="ERR";
+}
 
 namespace ecc
 {
-    /**
-     * Default constructor - does nothing
-     */
-    exception::exception()
+    error::error(errorcode cde, int line)
+	:notification((int)cde,true,line,CategoryPrefix)
+    {
+    }
+
+    error::~error()
     {
 
     }
 
-    /**
-     * Returns a generic string. Subclasses should provide their own implementation 
-     */
-    const char* exception::what(void) const noexcept
+    string error::get_template() const
     {
-	return "Unspecified ecc error";
-    }
-
-    /**
-     * Default constructor - does nothing 
-     */
-    parseexception::parseexception(const parse_error_t en) : errCode(en)
-    {
-
+	// Fetch copy of longstring for warning code
+	return getstr_errorcode(static_cast<errorcode>(code_),true);
     }
     
-    /**
-     * Returns a generic string. Subclasses should provide their own implementation. 
-     */
-    const char* parseexception::what(void) const noexcept
-    {
-	return "Unspecified parse error";
-    }
-
-
-    static string err_helper(const string& prefix, const string* pName, int line)
-    {
-	stringstream ss;
-	ss << *pName << ": " << prefix << " at line " << line;
-	return ss.str();
-    }
-
-   /**
-     * Constructs the error from the enum def and the line number. 
-     */
-    duplicateenumexception::duplicateenumexception(const string* pName, int line)
-	: parseexception(EnDuplicateEnum), 
-	  customErrMsg(err_helper("Duplicate enum type name",pName,line))
-    {
-
-    }
-    
-    /**
-     * Returns a generic string. Subclasses should provide their own implementation 
-     */
-    const char* duplicateenumexception::what(void) const noexcept
-    {
-	return customErrMsg.c_str();
-    }
-
-    longstringonflagexception::longstringonflagexception(const string* pName, int line)
-	: parseexception(EnLongstringOnFlags),
-	  customErrMsg(err_helper("Combination of longstrings and flag attribute",pName,line))
-    {
-
-    }
-
-    /**
-     * Returns a generic string. Subclasses should provide their own implementation 
-     */
-    const char* longstringonflagexception::what(void) const noexcept
-    {
-	return customErrMsg.c_str();
-    }
-
 }
-
-

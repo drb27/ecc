@@ -1,0 +1,28 @@
+/**
+ * warn-and-err.def 
+ *
+ * enum definitions and strings for compiler warnings/errors.
+ *
+ * NOTE: The build system of ecc is not configured to build this file -
+ *       the generated output are captured in the source control system
+ *       and used in the build. This is so users without ecc installed
+ *       can successfully build the binary. 
+ */
+ 
+namespace ecc;
+
+typedef enum
+{
+	NoWarning=0,
+	DuplicateValue=1	["Duplicate member value on #enum"]
+} warningcode;
+
+typedef enum
+{
+	NoError=0,
+	SyntaxError=1		["Syntax error"],
+	DuplicateEnum=2		["Duplicate typename #enum"],
+	FlagsAndLongstrings=3	["Illegal combination of flags and longstrings on #member"],
+	MissingSemicolon=4	["Missing semicolon following #enum"],
+	MalformedEnumdef=5	["Malformed enum definition"]
+} errorcode;

@@ -36,7 +36,6 @@ namespace ecc
 	void enumdef::setname(std::string* pName)
 	{
 	    name = *pName;
-	    delete pName;
 	}
 
 	void enumdef::setnamespace(const ctree<enumdef>* pn)
