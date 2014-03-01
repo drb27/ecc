@@ -21,5 +21,5 @@ typedef enum
 {
 	NoError=0,
 	DuplicateEnum=1		["Duplicate typename #enum"],
-	FlagsAndLongstrings=2	["Illegal combination of flags and longstrings on #enum"]
+	FlagsAndLongstrings=2	["Illegal combination of flags and longstrings on #member"]
 } errorcode;

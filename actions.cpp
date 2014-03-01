@@ -34,6 +34,8 @@ namespace ecc
      */
     void ac_push_enumdef(string* pName)
     {
+	unique_ptr<string> upName(pName);
+
 	// Check duplicate values
 	if ( CurrentEnumDef->has_duplicate_values() )
 	{
@@ -59,8 +61,10 @@ namespace ecc
 	}
 	else
 	{
-	    throw duplicateenumexception(pName,CurrentLine);
-	    delete pName;
+	    // Duplicate enum
+	    error e(DuplicateEnum,CurrentLine);
+	    e["#enum"] = *pName;
+	    throw e;
 	}
 
     }
@@ -76,13 +80,18 @@ namespace ecc
      */
     void ac_insert_member(string* pMember, int val, string* pLongStr)
     {
+	assert(pMember);
+	assert(pLongStr);
+
 	// Ensure strings get deleted when this block goes out of scope
 	unique_ptr<string> mpMember(pMember), mpLongStr(pLongStr);
 
 	// If this has a longstring, and the enumdef as the flags attribute, raise error
 	if ( CurrentEnumDef->is_flags() &&  pLongStr->length() )
 	{
-	    throw longstringonflagexception(pMember,CurrentLine);
+	    error e(FlagsAndLongstrings,CurrentLine);
+	    e["#member"] = *pMember;
+	    throw e;
 	}
 	else
 	{
